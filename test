@@ -1,0 +1,12 @@
+Using GitHub Codespaces in Visual Studio Code
+In this article
+About GitHub Codespaces in Visual Studio Code
+Prerequisites
+Creating a codespace in VS Code
+Opening a codespace in VS Code
+Changing the machine type in VS Code
+Deleting a codespace in VS Code
+Switching to VS Code Insiders in the web client
+Using the Insiders desktop application for Codespaces
+Further reading
+You can develop in your codespace directly in Visual Studio Code by connecting the GitHub Codespaces extension with your account on GitHub.
