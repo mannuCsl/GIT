@@ -1,6 +1,7 @@
 <templete>
     <lightning-card title="Hello gitHub">
         <p>This line written in gitHub.</p>
+        <p>changes</p>
         <p>Thank You!</p>
     </lightning-card>
 </templete>
