@@ -35,3 +35,13 @@ handleToggleClick() {
         this.iconName='utility:chevrondown'; //down
     }
 }
+
+CSS:
+
+<template for:each={myMenuItems} for:item="menuItem">
+  <lightning-menu-item
+    key={menuItem.id}
+    value={menuItem.value}
+    label={menuItem.label}
+  ></lightning-menu-item>
+</template>
