@@ -1,0 +1,73 @@
+<template>
+    <div class="slds-card" style="height:760px;"> 
+        <div style="padding:7px;">
+            <lightning-input label="Enter Your Name" type="text" onchange={onchangeYourNameHandler}></lightning-input>
+            <lightning-input label="Slow Down" type="number" onchange={onchangeSpeedHandler}></lightning-input>
+            <lightning-button label="Start" variant="brand" onclick={startbutton}></lightning-button>
+            <lightning-button label="Stop" variant="brand" onclick={stopIt}></lightning-button>
+
+            <div class="click-container" onclick={handleClick}>
+                <p class="dynamic-position" style={textPosition}>{clickedText}</p>
+            </div>
+        </div>
+       
+        
+        
+        <div if:false={visiblePopUp} class="slds-align_absolute-center" style="height:40rem;"> 
+            <img class="gameIconStyle" src="https://thumbs.gfycat.com/OddballBlueCardinal-max-1mb.gif">
+            <lightning-button style="padding:26px;" variant="brand" onclick={playHandler} label="Play"></lightning-button>
+        </div>       
+
+        <template if:true={visiblePopUp}>         
+            <div class="slds-modal__content slds-p-around_medium">
+                <div if:true={progrsBarVisible}>
+                    <lightning-layout data>
+                        <lightning-layout-item size="12" padding="around-small"> 
+                            <div class="progrsDivCls">
+                                <progress class="progressBarCls"  value={progressValue} max="100"></progress>
+                                <p class="slds-align_absolute-center" style="zoom:6;color:red;">{progressValue}% Completed</p>
+                            </div> 
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                
+                <div if:false={progrsBarVisible}>
+                    <div style="padding: 6px; margin-top:11rem;">
+                        <div class="imgClass" style="background-color: white; padding: 10px; ">                    
+                            <p><img class="imgStyle" style={imageStyle} src={imageUrl} alt="Cartoon Image"><b class="textStyl">{runningValue}</b></p>
+                            <lightning-layout data>
+                                <lightning-layout-item size="3" style="margin-top: -18px;">
+                                    <!-- <marquee> -->
+                                    <img style="max-width: 30px; margin-left: 210px; margin-top: -22px;" src='https://static.vecteezy.com/system/resources/previews/012/589/366/original/hand-drawn-cartoon-illustration-of-a-cactus-tree-and-pot-free-png.png' alt="Cartoon Image">
+                                    <p class="groundCls"></p>
+                                    <!-- </marquee> -->
+                                </lightning-layout-item>
+                                <lightning-layout-item size="3" style="margin-top: -18px;"> 
+                                    <img style="max-width: 30px; margin-left: 210px; margin-top: -22px;" src='https://static.vecteezy.com/system/resources/previews/012/589/366/original/hand-drawn-cartoon-illustration-of-a-cactus-tree-and-pot-free-png.png' alt="Cartoon Image">
+                                    <p class="groundCls1"></p>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="3" style="margin-top: -18px;"> 
+                                    <!-- <img style="max-width: 49px; margin-left: -50px; margin-top: -28px;margin-bottom:-7px;" src="https://cloudsciencelabs-a-dev-ed--c.vf.force.com/resource/1683630797000/cartoonCactusGirlFace?"> -->
+                                    <img class="firstCactusTreeCls" style={firstCactusTreeStyle} src='https://static.vecteezy.com/system/resources/previews/012/589/366/original/hand-drawn-cartoon-illustration-of-a-cactus-tree-and-pot-free-png.png' alt="Cartoon Image">
+                                    <p class="groundCls2"></p>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="3" style="margin-top:4px;"> 
+                                    <img style="max-width: 80px; margin-left: 170px; margin-top: -100px;" class="slds-float_right" alt="Home Image" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkzLFLrIhVEO7_gxggJiUo-ds40flZde_D9w&usqp=CAU'>
+                                    <p class="groundCls3"></p>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout>
+                                <lightning-layout-item size="12" padding="around-medium" style="text-align: center">
+                                    <img style="height: 40px; margin-top: 50px;" onclick={jumpHandler} src="https://cloudsciencelabs-a-dev-ed--c.vf.force.com/resource/1683019519000/JumpButtonImg?">
+                                    <img style="height: 40px; margin-top: 50px;" onclick={restartHandler} src="https://cloudsciencelabs-a-dev-ed--c.vf.force.com/resource/1683020353000/restartButtonImg?">
+                                    <img style="height: 40px; margin-top: 50px;" onclick={stopkHandler} src="https://cloudsciencelabs-a-dev-ed--c.vf.force.com/resource/1683020287000/pauseButtonImg?">
+                                    <img style="height: 40px; margin-top: 50px;" onclick={startkHandler} src="https://cloudsciencelabs-a-dev-ed--c.vf.force.com/resource/1683020218000/startButtonImg?">
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </div>  
+                </div>
+            </div>           
+        </template>
+    </div>    
+</template>
