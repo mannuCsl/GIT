@@ -1,0 +1,37 @@
+HTML:----
+<template>
+     <div style="background-color:rgb(199, 211, 179); padding:7px; border-radius: 10px;">
+          <p><b>Accoudion</b></p>
+          <P>This is the content of the div</P>
+          <div class="container" style={containerStyle}>
+              <div class="content">
+                  This is the content of the div
+                  <p>Donec vitae tellus egestas, faucibus ipsum ac, imperdiet erat. Nam venenatis non ante at sagittis. Integer vel purus eget nunc semper placerat. Nam tristique quam leo, et posuere enim condimentum quis. Ut sagittis libero id lectus tempor maximus. Nunc ut tincidunt eros, a hendrerit leo. Suspendisse quis fermentum dolor. Nulla euismod consectetur leo, id condimentum nunc consequat quis.</p>
+                  <p>Donec vitae tellus egestas, faucibus ipsum ac, imperdiet erat. Nam venenatis non ante at sagittis. Integer vel purus eget nunc semper placerat. Nam tristique quam leo, et posuere enim condimentum quis. Ut sagittis libero id lectus tempor maximus. Nunc ut tincidunt eros, a hendrerit leo. Suspendisse quis fermentum dolor. Nulla euismod consectetur leo, id condimentum nunc consequat quis.</p>
+                  <p>Donec vitae tellus egestas, faucibus ipsum ac, imperdiet erat. Nam venenatis non ante at sagittis. Integer vel purus eget nunc semper placerat. Nam tristique quam leo, et posuere enim condimentum quis. Ut sagittis libero id lectus tempor maximus. Nunc ut tincidunt eros, a hendrerit leo. Suspendisse quis fermentum dolor. Nulla euismod consectetur leo, id condimentum nunc consequat quis.</p>
+              </div>
+          </div>
+          <lightning-button-icon class="iconStyle" icon-name={iconName} onclick={handleToggleClick} variant="container"></lightning-button-icon>
+     </div>
+</template>
+
+JS:----
+ 
+@track isOpen = true;
+iconName='utility:chevronup';
+
+
+get containerStyle() {
+ var five=500;
+    return `max-height: ${this.isOpen ? five+'px' : '0px'}; transition: max-height 1s ease-in-out; background-color: antiquewhite; border-radius: 10px;`;
+}
+
+handleToggleClick() {
+    this.isOpen = !this.isOpen;
+    if(this.isOpen){
+        this.iconName='utility:chevronup'; //up
+    }
+    else{
+        this.iconName='utility:chevrondown'; //down
+    }
+}
