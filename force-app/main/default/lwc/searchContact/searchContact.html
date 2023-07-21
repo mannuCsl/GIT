@@ -1,0 +1,34 @@
+<template>
+    <lightning-layout class="hello1">        
+        <lightning-layout-item size="12" padding="around-small" >
+            <div class="slds-modal__header">
+                <lightning-avatar src="https://www.lightningdesignsystem.com/assets/images/avatar1.jpg" height="90px"></lightning-avatar>
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Search Contact</h1><br>
+                <!-- <h1 class="slds-modal__header"><b>Search Contact</b></h1> -->
+            </div>
+            <div>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <form>
+                        <lightning-input type="text" label="Name" onfocus={nameChange} onchange={nameChange} ></lightning-input>
+                        <lightning-input type="email" label="Email" onfocus={emailChange} onchange={emailChange}></lightning-input>
+                        <lightning-input type="phone" label="Phone" onfocus={phoneChange} onchange={phoneChange}></lightning-input>
+                    
+                        <lightning-input-address onchange={addressChange}
+                            onfocus={addressChange}
+                            address-label="Address"
+                            street-label="Street" 
+                            city-label="City"
+                            country-label="Country"
+                            province-label="Province"
+                            postal-code-label="PostalCode">
+                        </lightning-input-address>
+                    </form>
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick={searchClear}>Clear</button>
+                <button class="slds-button slds-button_brand" onclick={fun1}>Search</button> 
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

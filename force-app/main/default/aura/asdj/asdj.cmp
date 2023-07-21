@@ -1,0 +1,14 @@
+<!--c:toggleCss-->
+<aura:component>
+    <lightning:button label="Toggle" onclick="{!c.toggle}"/>
+  <!--  <p aura:id="text">Now you see me</p>-->
+                  <lightning:icon aura:id="text" iconName="utility:search" size="xx-small" alternativeText="Search"/>
+    
+    <aura:if isTrue="{!c.toggle}">
+    True
+    <aura:set attribute="else">
+      False
+    </aura:set>
+  </aura:if> 
+
+</aura:component>

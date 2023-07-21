@@ -1,0 +1,211 @@
+<!--template>
+     <div class="c-container">
+        <lightning-layout class="class1" multiple-rows="true" >
+            <lightning-layout-item padding="around-small" size="12">
+                <div class="page-section page-header">
+                    <h2>Contacts</h2>
+                </div>
+            </lightning-layout-item>
+
+            < <lightning-layout-item size="12" medium-device-size="4"  padding="around-small">
+                <lightning-layout for:each={dt} for:item="con" key={con.Id}>
+                    <lightning-layout-item class="slds_123" padding="around-small" size="4">
+                        <lightning-icon icon-name="standard:contact" title="Contact"></lightning-icon>
+                        <p>Name : {con.Name}</p>
+                        <p>Email : {con.Email}</p> 
+                        <template if:true={con.isFollowed}>
+                        <lightning-button  class="slds-align_absolute-center" value={con.Id} variant="white" label=' Following' onclick={unfollowClick}></lightning-button></template> 
+                        <template if:false={con.isFollowed}>
+                        <lightning-button  class="slds-align_absolute-center" value={con.Id} variant="white" label='+ Follow' onclick={followClick}></lightning-button></template>
+                        <lightning-button label="Message" variant="brand-outline" ></lightning-button>                   
+                    </lightning-layout-item> 
+                </lightning-layout>
+            < </lightning-layout-item> 
+
+            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                <div class="page-footer page-section">
+                    <lightning-button
+                        class="slds-m-center_x-small"
+                        variant="destructive"
+                        label="Go to Search Page"
+                        onclick={GotoSearchPage}>
+                    </lightning-button>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template> -->
+<template>
+    <template if:true={contactShow}>
+        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+            <lightning-layout multiple-rows>
+                <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="4" large-device-size="3" for:each={visibleContacts} for:item="con" key={con.Id}>               
+                    <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+                        <lightning-icon icon-name="standard:contact" title="Contact"></lightning-icon>
+                        <p>Name</p>
+                        <p>{con.Name}</p>
+                        <p>Email</p>
+                        <p>{con.Email}</p>
+                        <br>
+                        <div class="flot">
+                            <template if:true={con.isFollowed}>
+                            <lightning-button  class="slds-align_absolute-center" value={con.Id} variant="brand-outline" label=' Following' onclick={unfollowClick}></lightning-button></template> 
+                            <template if:false={con.isFollowed}>
+                            <lightning-button  class="slds-align_absolute-center" value={con.Id} variant="brand-outline" label='+ Follow' onclick={followClick}></lightning-button></template>
+                        </div>
+                        <lightning-button label="Message" variant="brand-outline" onclick={messageClickbutton}></lightning-button>                      
+                    </div>               
+                </lightning-layout-item>                      
+            </lightning-layout>
+
+            <template if:true={messageClick}>
+                <div>
+                    <lightning-card title="Message Send">
+                        <lightning-input type="text" label="Subject" onchange={subjectChange} ></lightning-input>
+                        <lightning-input type="long text" label="message" onchange={messageChange}></lightning-input>
+                        <div class="slds-modal__footer">
+                            <button class="slds-button slds-button_neutral" onclick={messageClear}>Close</button>
+                            <button class="slds-button slds-button_brand" onclick={send}>Send</button> 
+                        </div>
+                    </lightning-card>
+                </div>
+            </template>
+            
+            <div slot="footer" class="slds-var-m-vertical_medium">
+                <c-pagination records={dt} onupdate={updateContactHandler}></c-pagination>
+            </div>                
+            <div class="slds-modal__footer">
+                <lightning-button
+                    class="slds-m-center_x-small"
+                    variant="destructive"
+                    label="Go to Search Page"
+                    onclick={GotoSearchPage}
+                ></lightning-button>
+            </div>    
+        </div>
+    </template>
+
+    <template if:true={messageClick}>
+        <div class="messageDiv">
+            <lightning-card class="lightningCardClass" title="Message Send" >
+                <lightning-input type="text" label="Subject" onchange={subjectChange} ></lightning-input>
+                <lightning-textarea type="long text" label="message" onchange={messageChange}></lightning-textarea>
+            </lightning-card>
+            <div class="slds-modal__footer slds-modal__footer--stcky">
+                <button class="slds-button slds-button_neutral" onclick={messageClear}>Close</button>
+                <button class="slds-button slds-button_brand" onclick={send}>Send</button> 
+            </div>
+        </div>
+    </template>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888 -->
+<!-- <template>
+    <div>
+        <h1 class="slds-modal__header">Contacts</h1>
+    </div>
+        <div class="slds-modal__content slds-p-around_medium"> 
+            <div class="slds-grid slds-wrap">
+                <template for:each={visibleContacts} for:item="con">                    
+                    <div key={con.Id} class="slds-col slds-size_1-of-3">
+                        <div class="slds-m-around_x-small">
+                            <div class="slds-box slds-box_small"> 
+                                < <div class="slds-page-header">       
+                                    <div class="slds-media">
+                                        <div class="slds-media__figure">
+                                            <lightning-icon icon-name="standard:contact" title="Contact"></lightning-icon>
+                                        </div>
+                                        <div class="slds-media__body">                              
+                                                <h3>
+                                                    <span class="slds-page-header__title slds-truncate" title="Contact :-">Contact :-</span>
+                                                </h3>                          
+                                            <p class="slds-page-header__name-meta">{con.Name}</p>
+                                        </div>
+                                    </div>          
+                                </div> -->
+                                <!-- <br>                                                                        -->
+                                <!--lightning-card icon-name="standard:contact" title="Contact">
+                                <dl class="slds-list_horizontal slds-wrap">
+                                    <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Name">  Name :</dt>
+                                    <dd class="slds-item_detail slds-truncate" title={con.Name}>{con.Name}</dd>
+                                    <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Email">  Email :</dt>
+                                    <dd class="slds-item_detail slds-truncate" title={con.Name}>{con.Email}</dd> 
+                                </dl> 
+                                <br>                                                         
+                                <template if:true={con.isFollowed}>
+                                <lightning-button  class="slds-align_absolute-center" value={con.Id} variant="white" label=' Following' onclick={unfollowClick}></lightning-button></template> 
+                                <template if:false={con.isFollowed}>
+                                <lightning-button  class="slds-align_absolute-center" value={con.Id} variant="white" label='+ Follow' onclick={followClick}></lightning-button></template>                            
+                            </lightning-card>                                           
+                            </div> 
+                        </div>
+                   </div>                                       
+                </template> 
+                <br>                          
+            </div>
+            <div slot="footer" class="slds-var-m-vertical_medium">
+                <c-pagination records={dt} onupdate={updateContactHandler}></c-pagination>
+            </div>      
+        </div>
+        <div class="slds-modal__footer">
+            <lightning-button
+                class="slds-m-center_x-small"
+                variant="destructive"
+                label="Go to Search Page"
+                onclick={GotoSearchPage}
+        ></lightning-button>
+    </div>  
+</template>  -->
+<!-- 88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888 -->
+
+
+
+
+
+
+
+
+<!-- <template >
+    <div>
+        <h1 class="slds-modal__header"> Contacts </h1>
+    </div>
+    <div class="slds-modal__content slds-p-around_medium"> 
+        <div for:each={visibleContacts} for:item="con" key={con.Id} class="card">
+            <div class="lcard" ><lightning-card icon-name="standard:contact"  title="Contact"></lightning-card> </div>        
+            <br>
+            <h1>  Name : {con.Name}</h1>
+            <h1>  Email : {con.Email}</h1> 
+            <br>                                                 
+            <template if:true={con.isFollowed}>
+            <lightning-button class="slds-align_absolute-center" value={con.Id} variant="white" label=' Following' onclick={unfollowClick}></lightning-button></template> 
+            <template if:false={con.isFollowed}>                            
+            <lightning-button class="slds-align_absolute-center" value={con.Id} variant="white" label='+ Follow' onclick={followClick}></lightning-button></template> 
+            <br>                        
+        </div>             
+        &nbsp;         
+    </div>
+     <div slot="footer" class="slds-var-m-vertical_medium">
+        <c-pagination records={dt} onupdate={updateContactHandler}></c-pagination>
+    </div> 
+    <div class="slds-modal__footer">
+        <lightning-button
+            class="slds-m-center_x-small"
+            variant="destructive"
+            label="Go to Search Page"
+            onclick={GotoSearchPage}>
+        </lightning-button>
+    </div>
+</template> -->

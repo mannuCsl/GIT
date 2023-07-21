@@ -1,0 +1,36 @@
+<!--Sample.cmp-->
+<aura:component controller="EmployeeRecordCreateForAura" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global">
+     
+    <!--Declare Attributes-->
+    <aura:attribute name="isSpinner" type="boolean" default="false"/>
+    <aura:attribute name="objemp" type="Employee__c" default="{'sobjectType':'Employee__c','Name':'','Last_Name__c': '','Email__c':'','Phone__c':'', 'Company__c':''}"/>
+     
+     
+    <!--Component Start-->
+    <div class="slds-m-around--xx-large" Style="background-color:white; margin:10px; padding:14px;">
+        <div class="headingdiv">
+            <h2>Employee Detail</h2>
+        </div>
+        <div class="container-fluid">            
+            <div class="form-group" >                
+                <lightning:input name="fname" type="text" maxlength="50" required="true" label="First Name" value="{!v.objemp.Name}" />
+            </div>
+            <div class="form-group">
+                <lightning:input name="lname" type="text" maxlength="50" label="Last Name" value="{!v.objemp.Last_Name__c}" />
+            </div>
+            <div class="form-group">
+                <lightning:input name="emailId" type="email" maxlength="100" label="Email" value="{!v.objemp.Email__c}" />
+            </div>
+            <div class="form-group">
+                <lightning:input name="PhoneId" type="Phone__c" maxlength="10" label="Phone" value="{!v.objemp.Phone__c}" />
+            </div>
+            <div class="form-group">
+                <lightning:input name="company" type="text" maxlength="50" label="Company" value="{!v.objemp.Company__c}" />
+            </div>
+        </div>
+        <br/>
+        <lightning:button variant="brand" label="Submit" onclick="{!c.handleLeadSave}" />        
+        <lightning:button label="Cancel" onclick="{!c.handleCancel}"/>        
+    </div>
+    <!--Component End-->
+</aura:component>

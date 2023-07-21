@@ -1,0 +1,19 @@
+.slds-modal__header{
+    background-color:#e9e5e1;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    text-align: center;
+    height: 70px;
+    text-size-adjust:50px;
+    /* position: absolute; 
+    top: 0; 
+    width: 100%;  */
+}
+ 
+.slds-modal__footer{
+    background-color: #e9e5e1;
+    align-items: flex-end;
+    /* position: absolute;   
+    width: 100%; 
+    bottom: 0; */
+}

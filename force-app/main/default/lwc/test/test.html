@@ -1,0 +1,106 @@
+<!--
+<template>        
+    <lightning-card title = "Search Custom Address" icon-name = "custom:custom63">    
+        <div class = "slds-m-around_medium">    
+            <lightning-input type = "search" onchange = {handleKeyChange} class = "slds-m-bottom_small" label = "Search" >  
+            </lightning-input>    
+            <template if:true = {accounts}>                    
+                <div style="height: 300px;">    
+                    <lightning-datatable key-field="Id"  
+                                         data={accounts}  
+                                         columns={columns}  
+                                         hide-checkbox-column="true"  
+                                         show-row-number-column="true"  
+                                         onrowaction={callRowAction}>  
+                    </lightning-datatable>    
+                </div>  
+            </template>        
+            <template if:true = {error}>    
+                {error}>                    
+            </template>    
+        </div>    
+    </lightning-card>    
+</template>   -->
+
+
+<!--
+<template>    
+    <lightning-card title="Get Accounts in Lightning Web Component">
+        <div class="slds-p-around_small">
+            <lightning-button variant="brand" label="Get Account" onclick={handleClick}></lightning-button>            
+            <div class="slds-p-around_medium lgc-bg">                
+                <lightning-tree items={accountHierarchy} onselect={handleTreeSelect}></lightning-tree>                  
+            </div>            
+        </div>
+    </lightning-card>
+  </template>  -->
+  
+
+
+
+
+
+<!-- 2222222222222222222222222222222222222222222 -->
+  <template>
+    <lightning-card title="Get Accounts in Lightning Web Component">
+        <div class="slds-p-around_small">
+            <lightning-button variant="brand" label="Get Account" onclick={handleClick}></lightning-button> 
+            <lightning-button if:true={showTable} style="margin-left: 15px;" variant="brand" label="Close" onclick={handleClose}></lightning-button> 
+            <div if:true={showTable} class="slds-p-around_medium lgc-bg">
+                    <!-- <lightning-datatable
+                        key-field="Id"
+                        hide-checkbox-column 
+                        show-row-number-column
+                        data={accountData}
+                        onrowaction={onRowActionHandler}
+                        columns={columns}>
+                    </lightning-datatable>
+                <div slot="footer" class="slds-var-m-vertical_medium">
+                    <c-pagination records={allAccount} onupdate={updateContactHandlerpage}></c-pagination>
+                </div>  -->
+
+                <!-- childNameCapitalSePahle-AurAllLetterSmall-->
+                <c-drag-a-n-ddrop></c-drag-a-n-ddrop>
+            </div>
+        </div>
+    </lightning-card>
+</template> 
+<!-- 555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555 -->
+<!-- <template>
+    <lightning-button-group onclick={skillRangeHandler}>
+        <lightning-button data-label="Beginner" variant={buttonVariants.Beginner} disabled={isDisabledSkillRange} label={Labels.Beginner}></lightning-button>
+        <lightning-button data-label="Advanced" variant={buttonVariants.Advanced} disabled={isDisabledSkillRange} label={Labels.Advanced}></lightning-button>
+        <lightning-button data-label="Expert" variant={buttonVariants.Expert} disabled={isDisabledSkillRange} label={Labels.Expert}></lightning-button>
+        <lightning-button data-label="Reset" variant={buttonVariants.Reset} disabled={isDisabledSkillRange} label={Labels.Reset}></lightning-button>
+    </lightning-button-group>
+</template> -->
+<!-- 555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+  <lightning-icon icon-name="standard:account" title="Address"></lightning-icon>  
+
+         <lightning-combobox label="Object" value="" placeholder="Add Object" options={optionToSelectObject} onchange={handleObjectChange}>
+        </lightning-combobox>
+        <div if:true={visible} style="background-color: rgb(226, 210, 210); padding: 30px;">
+            <p><b>Hello World {selected}</b></p>
+           <lightning-button value={selected} class="slds-m-left_x-small" label="Close" variant="brand" onclick={closeModal}></lightning-button>  
+
+        </div>
+         -->

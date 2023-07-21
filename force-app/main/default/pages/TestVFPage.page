@@ -1,0 +1,15 @@
+<apex:page >
+    <label style="item-aign-center" for="yourName2">Heading </label>
+    <div style="padding:10px;">
+        <apex:form >
+            <label for="yourName">Enter Your Name: </label>
+            <apex:inputText id="yourName" onkeyup="yourNameChangeHandler(this.value);" />
+        </apex:form>
+    </div>    
+    <script>
+    function yourNameChangeHandler(value) {
+        // Access the input value and perform necessary actions
+        console.log(value); // Example: Log the value to the console
+    }
+    </script>
+</apex:page>

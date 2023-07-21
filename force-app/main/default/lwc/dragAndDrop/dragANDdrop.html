@@ -1,0 +1,46 @@
+<template>
+     <div class="container" style="padding:20px;background-color:white; border-radius: 7px;">         
+          <template if:true={elementListVisible} for:each={elementList} for:item="elements" for:index="index">
+               <div key={elements.Id}
+                    style="padding:7px; margin: 15px; background-color:white; border: solid hsl(128, 98%, 49%) 1px; border-radius: 10px;"
+                    draggable="true" 
+                    ondrop={Drop}
+                    ondragstart={DragStart}
+                    ondragover={DragOver}
+                    title={index}>  
+                         <img src={elements.icon}/>
+                         <lightning-icon style="margin:5px;" icon-name="standard:account" title={elements.Name}></lightning-icon>                         
+                         {elements.Name}
+                         <lightning-button-Icon style="margin-right: 10px; margin-top: 8px;" icon-name="utility:close" variant="bare" class="slds-float_right slds-m-left_x-large" value={elements} onclick={removeElement} icon-class="dark" title="Remove" ></lightning-button-Icon>
+               </div>                     
+          </template> 
+     </div>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <!-- <i class="fa" style="font-size:24px">&#xf07a;</i>
+         <span class='badge badge-warning' id='lblCartCount'> 5 </span> {Elements.index}:-->
+        <!-- <span link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></span> -->
+        <!-- <i class="fa badge" style="font-size:24px" value=12>&#xf07a;</i>         -->

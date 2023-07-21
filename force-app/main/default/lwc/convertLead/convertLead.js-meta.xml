@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets><!--ye parent hai targets-->
+        <target>lightning__AppPage</target><!--aur ye sabhi iske child hai target -->
+        <target>lightning__RecordPage</target><!--in target me hum wo jagah ka nam likhte hai jaha hume apna banaya component dikha sake-->
+        <target>lightning__RecordAction</target>
+        <target>lightning__Tab</target>
+        <target>lightning__HomePage</target>
+    </targets>
+</LightningComponentBundle>

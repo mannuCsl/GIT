@@ -1,0 +1,24 @@
+.container {
+     overflow: hidden;
+} 
+.content {
+     padding: 10px;
+     border-radius: 10px;
+}
+.iconStyle{
+     margin-left: 50%;
+     --sds-c-button-radius-border: 20px;
+     --sds-c-button-color-border: bare;
+}
+
+/* myComponent.css */
+.list-item {
+     padding: 10px;
+     border: 1px solid #ccc;
+     background-color: aquamarine;
+   }
+   
+   /* Apply "pointer" cursor to the list-item class on hover */
+   .list-item:hover {
+     cursor: pointer;
+   }

@@ -1,0 +1,50 @@
+.sldsicon{
+    margin-top: -5px;    
+}
+.sldsinput{
+    margin-top: -14px;
+    padding-top: -10px;
+}
+.divClass1{
+    padding: 5px;
+    background-color:white;
+    border: 1px solid rgb(46, 1, 179);
+}
+.color-red {
+    background-color:rgb(173, 87, 127);
+    height: 80px;
+    color: white;
+    font-family: Tahoma;
+    font-size: 35px;
+    font-weight: 400;
+    border-radius: 23px;
+}
+ 
+.color-grey {
+    background-color: grey;
+    height: 80px;
+    color: white;
+    font-family: Tahoma;
+    font-size: 35px;
+    font-weight: 400;
+    border-radius: 23px;
+}
+ 
+.color-green {
+    background-color: #59e0cd;
+    height: 80px;
+    color: white;
+    font-family: Tahoma;
+    font-size: 35px;
+    font-weight: 400;
+    border-radius: 23px;
+}
+.color-blue {
+    background-color: #08a7da;
+    height: 80px;
+    color: white;
+    font-family: Tahoma;
+    font-size: 35px;
+    font-weight: 400;
+    border-radius: 23px;
+}

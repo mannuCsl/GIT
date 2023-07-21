@@ -1,0 +1,25 @@
+.filterOption{
+    background-color: aliceblue;
+}
+.popup{
+  margin-top: -80px;
+  margin-left: -150px;
+}
+.mm{
+  margin-right: -5px;
+}
+  .radio{
+   
+    margin-top: -5px;
+    
+  }
+  .class1{
+    background-color:lavender;
+  }
+  .searchpadding{
+    margin-top: -20px;
+  }
+  ul li:hover {
+    background: lavender;
+    
+  }

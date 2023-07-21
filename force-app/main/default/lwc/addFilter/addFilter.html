@@ -1,0 +1,372 @@
+<template>       
+    <lightning-card title="SEARCH CRITERIA">
+        <lightning-button label="ReStart" slot="actions" variant="Neutral" class="buttonNeutral" onclick={manualRefreshHandler}></lightning-button>
+        <lightning-button label="Save Search Criteria" slot="actions" variant="Neutral" class="buttonNeutral slds-m-left_xx-small"></lightning-button>
+        <lightning-button label="Open Search Criteria" slot="actions" variant="Neutral" class="buttonNeutral slds-m-left_xx-small"></lightning-button>
+    <div class="container" style={containerStyle}>
+        <lightning-layout class="content ">
+            <lightning-layout-item size="3" class="slds-m-around_xx-small mm">
+                <lightning-layout>
+                    <lightning-layout-item size="6">
+                        <lightning-input type="number" max-length="3" value={distanceValue} label="Distance" required onchange={handledistanceValue}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3">
+                        <lightning-combobox label="Unit" value={distanceUnit} options={optionToChangeUnit} onchange={handledistanceUnit}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item>
+                        <lightning-icon icon-name="utility:info" class="slds-m-top_x-large" size="x-small"
+                            alternative-text="ask for help" onmouseover={showInfo} onmouseout={hideInfo}>
+                        </lightning-icon>
+                        <div class="slds-is-relative slds-float_right popup ">
+                            <section if:true={openInfo} class="slds-popover slds-nubbin_bottom" role="dialog">
+                                <div class="slds-popover__body"><p>The maximum radius is set by your admin : 999</p></div>
+                            </section>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout>
+                    <lightning-layout-item size="12" class="slds-m-around_xx-small slds-m-top_medium">
+                        <lightning-input type="checkbox" label="Show only records I own" checked={findOnlyMyRecords} onchange={handleFindOnlyMyRecords}></lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+    
+    
+                
+            <lightning-layout-item size="9">
+                <lightning-layout>
+    
+                    <template for:each={filterContainer} for:item="filterObject">
+                        <!-- <p key={acc.value}>{acc.label}</p> -->
+                        <lightning-layout-item size="3" class="slds-m-right_small" key={filterObject.value}>
+                            <div class="filterBackground slds-border_right slds-border_left slds-border_bottom slds-m-top_large">
+                                <div class="slds-text-heading_medium slds-border_bottom"><span class="filterHead">{filterObject.label} Filter</span>
+                                    <lightning-button-icon icon-name="utility:close" size="large" alternative-text={filterObject.label}  variant="bare"
+                                                        title="Close" class="slds-float_right filterClose" onclick={CloseObjectFilter}>
+                                    </lightning-button-icon>
+                                </div>      
+                            
+                                <ul class="slds-has-dividers_around-space slds-m-around_xx-small">
+                                    <template for:each={filterObject.filterList} for:item="filterItem" for:index="index">
+                                        <li class="slds-item" key={filterItem.name}>
+                                            <lightning-layout vertical-align="center" horizontal-align="spread">
+                                                    <lightning-layout-item size="1">{filterItem.sno}.</lightning-layout-item>
+                                                    <lightning-layout-item padding="horizontal-small"  title={filterItem.id} tabindex={filterItem.name} size="10">
+                                                            <div  onclick={editFilterCriteria} data-id={filterItem.id} data-list={filterItem}  style="width:200px; cursor: pointer;" title={filterObject.label}><div title={filterItem.name} class="filterName"> {filterItem.name}</div>
+                                                            <div title={filterItem.operator} class="filterOprtrAndVal">{filterItem.operator} {filterItem.operatorValue} </div> </div>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item padding="horizontal-small" size="1" title={filterItem.id} id={filterItem.id}>
+                                                        <lightning-button-icon icon-name="utility:close" name={filterObject.label} title = "Close" data-id={filterItem.id}
+                                                               onclick={deleteFilterFromList} variant="bare">
+                                                        </lightning-button-icon>
+                                                    </lightning-layout-item>
+                                            </lightning-layout>
+                                        </li>
+                                    </template>
+                                </ul>
+                            
+                                                <ul class="slds-has-dividers_around-space slds-m-around_xx-small">
+                                                    <template for:each={filterObject.crossFilterList} for:item="crossfilterItem" for:index="index">
+                                                        <li class="slds-item slds-m-top_large" key={crossfilterItem.id}>
+                                                            <lightning-layout>
+                                                                <lightning-layout-item padding="horizontal-Small" size="11">
+                                                                    <b>{crossfilterItem.primaryObject}</b><br>
+                                                                    {crossfilterItem.with}&nbsp;{crossfilterItem.secondaryObject}
+                                                                </lightning-layout-item>
+                                                                <lightning-layout-item size="1">
+                                                                    <lightning-button-icon icon-name="utility:close" name={searchAccount} title = "Close" value={crossfilterItem.id}
+                                                                        onclick={deleteCrossFilterFromList} variant="bare">
+                                                                    </lightning-button-icon>
+                                                                </lightning-layout-item>
+                                                            </lightning-layout>
+                                                        </li>
+                                                        <lightning-input type="search" key={crossfilterItem.id} class="searchpadding" placeholder="Add Fields..." onclick={openSubCrossFilterModel}> </lightning-input>
+                                                        
+                                                        
+
+                                                    </template>
+                                                </ul>
+                                                <!-- <ul class="slds-has-dividers_around-space slds-m-around_xx-small">
+                                                    <template for:each={crossFilterList.subCrossFilter} for:item="subCrossFilterItem" for:index="index">
+                                                        <li class="slds-item slds-m-top_large" key={subCrossFilterItem.id}>
+                                                            <lightning-layout>
+                                                                <lightning-layout-item padding="horizontal-Small" size="11">
+                                                                    <b>{subCrossFilterItem.primaryObject}</b><br>
+                                                                    {subCrossFilterItem.with}&nbsp;{subCrossFilterItem.secondaryObject}
+                                                                </lightning-layout-item>
+                                                                <lightning-layout-item size="1">
+                                                                    <lightning-button-icon icon-name="utility:close" name={searchAccount} title="Close"
+                                                                        value={subCrossFilterItem.id} onclick={deleteSubCrossFilterFromList} variant="bare">
+                                                                    </lightning-button-icon>
+                                                                </lightning-layout-item>
+                                                            </lightning-layout>
+                                                        </li>
+                                                    </template>
+                                                </ul> -->
+                                    <div class="slds-p-top_small">
+                                        <a onclick={handelModel} title={filterObject.label}  class="slds-float_left slds-m-left_small" name="AddNewFilter">Add Filter</a>
+                                        <a onclick={handleCrossFilter} class="slds-float_right slds-m-right_small">Add Cross Filter</a><br />
+                                        <div class="slds-m-left_small slds-p-top_x-small bold"><abbr title="required" class="slds-required">*</abbr>Conditions</div>
+                                        <lightning-radio-group options={optionForCustomLigic} value={itemSelected} class="slds-p-bottom_x-small slds-m-left_small radio"
+                                                                onchange={handleRadioButton}   name={filterObject.label}  type="radio">
+                                        </lightning-radio-group>
+                                    </div>
+                                    <template if:true={showInputBoxOfAccount}>
+                                        <div class="slds-p-around_medium lgc-bg"><lightning-input type="text" label="Logic" required></lightning-input></div>
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                    </template>
+    
+                    
+                        <template if:true={addObjectAtFirst}>
+                            <lightning-layout-item size="3">
+                                <lightning-combobox label="Object" value={selectedObjectValue} placeholder="Add Object"  options={optionToSelectObject} onchange={handleObjectChange} title="">
+                                </lightning-combobox>
+                </lightning-layout-item>
+                </template>
+                </lightning-layout>
+            </lightning-layout-item>
+                
+        </lightning-layout>
+         
+        <lightning-layout>
+            <lightning-layout-item size="12" class="slds-m-around_medium "><lightning-button class="button" variant="brand" label="Find NearBy!" onclick={findNearByHandler}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <!-- </div>  -->
+    </div>
+    <lightning-button-icon class="iconStyle slds-align_absolute-center" icon-name={iconName} onclick={handleToggleClick} variant="container"></lightning-button-icon>
+
+    
+    
+        <!-- =========================================Start Model================================================================== -->
+        <template if:true={allowModelToOpen}>
+            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <div id="modal-heading-01" class="slds-modal__title slds-hyphenate">Set {getObjectName} Filter</div>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <template lwc:if={showError_EmptyModel}>
+                            
+                            <div class="demo-only slds-box" style="padding:0.5rem;background:#850000;font-size: 15px;">
+                                <div class="slds-text-color_inverse">Set at least one filter criteria</div>
+                                </div>
+                        </template>
+                        <template lwc:if={showError_NoValueForField}>   
+                            <div class="demo-only slds-box" style="padding:0.5rem;background:#850000;font-size: 15px;">
+                                <div class="slds-text-color_inverse">Please set a value for field {currentSelectedField}</div>
+                                </div>
+                        </template>
+                        <lightning-combobox
+                                name="optionSelect"
+                                label="Field"
+                                value={currentSelectedField}
+                                placeholder="Select Fields"
+                                options={optionOfAllFields}
+                                onchange={handleModalFields}
+                                
+                                required >
+                            </lightning-combobox>
+                        <lightning-combobox
+                                name="optionSelect"
+                                label="Operator"
+                                value={currentSelectedOperator}
+                                options={operatorValue}
+                                required
+                                onchange={handleModalOperator} >
+                            </lightning-combobox>
+    
+                            
+                        <template if:true={setFilterModelValueInputBoxShowAndHideForDateTime}>
+                            <abbr title="required" class="slds-required">*</abbr>
+                            <label class="slds-form-element__label slds-no-flex" aria-required="true">value</label>
+                            <lightning-input type="datetime" name="DateTime" onchange={handleModalDateTimeValue} value={datetime}></lightning-input>
+                        </template>
+                        <template if:true={setFilterModelValueInputBoxShowAndHideForDate}>
+                            <lightning-layout>
+                            <lightning-layout-item size="6">
+                                <abbr title="required" class="slds-required">*</abbr>
+                            <label class="slds-form-element__label slds-no-flex" aria-required="true">value</label>
+                                <lightning-input type="date" name="input1" label="Enter a date" onchange={handleModalDateValue} value={currentSelectedOperatorValue}></lightning-input>
+                            </lightning-layout-item>
+                            </lightning-layout>    
+                        </template>
+                        <template if:true={setFilterModelValueInputBoxShowAndHideForBoolean}>
+                            <abbr title="required" class="slds-required">*</abbr>
+                            <label class="slds-form-element__label slds-no-flex" aria-required="true">value</label>
+                            <lightning-radio-group   value={currentSelectedOperatorValue} name="radioGroup" options={optionsOfTrueFalse}
+                                                    onchange={handleModalBooleanValue} type="button">
+                            </lightning-radio-group>   
+    
+                        </template>
+                        <template if:true={setFilterModelValueInputBoxShowAndHideForPickList}>
+                            <lightning-combobox 
+                                name="optionSelect"
+                                label="Value"
+                                value={currentSelectedOperatorValue}
+                                options={optionOfAllPicklist}
+                                required
+                                onchange={handleModalPicklistOption} ></lightning-combobox>
+                        </template>
+                        <template if:true={showInputBoxForEmail}>
+                            <abbr title="required" class="slds-required">*</abbr>
+                            <label class="slds-form-element__label slds-no-flex">value</label>
+                            <input class="slds-input" maxlength="255" size="20" type="email" onchange={handleModalCustumLogicValue} value={currentSelectedOperatorValue} >
+                        </template>
+                        <template if:true={setFilterModelValueInputBoxShowAndHideForCustumLogic}>
+                            <abbr title="required" class="slds-required">*</abbr>
+                            <label class="slds-form-element__label slds-no-flex" aria-required="true">value</label>
+                            <input class="slds-input" maxlength="255" size="20" type="text" onchange={handleModalCustumLogicValue} value={currentSelectedOperatorValue} >
+                        </template>
+                    </div>
+                    <div class="slds-modal__footer bold">
+                        <button class="slds-button slds-button_neutral" onclick={handleModalClose}>Close</button>
+                        <button class="slds-button slds-button_brand" onclick={addAppliedFilterAsList} name={getObjectName}>Apply</button>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+        </template>
+        <!-- =========================================================End Model==================================================================================== -->
+        
+        <!-- =========================================================Cross Filter Model==================================================================================== -->
+        <template if:true={isCrossFilterModelOpen}>
+            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <div  class="slds-modal__title slds-hyphenate">Set child Object</div>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_large">
+                        <lightning-layout>
+                            <lightning-layout-item size="6" class=slds-p-right_small>
+                                <lightning-combobox
+                                name="optionSelect"
+                                label="Primary Object"
+                                value={currentSelectedPrimaryObject}
+                                placeholder="Select Fields"
+                                options={optionOfPrimaryObject}
+                                onchange={handleoptionOfPrimaryObject}
+                                required >
+                            </lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" class=slds-p-left_small>
+                                <lightning-combobox
+                                name="optionSelect"
+                                label=''
+                                value={currentSelectedCrossFilterWith}
+                                options={optionOfCrossFilterWith}
+                                
+                                onchange={handleoptionOfCrossFilterWith} >
+                            </lightning-combobox>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                            <lightning-combobox class=slds-p-top_medium 
+                                name="optionSelect"
+                                label="Secondary Object"
+                                value={currentSelectedSecondaryObject}
+                                options={optionOfSecondaryObject}
+                                required
+                                onchange={handleoptionOfSecondaryObject} ></lightning-combobox>
+                        
+                    </div>
+                    <div class="slds-modal__footer bold">
+                        <button class="slds-button slds-button_neutral" onclick={closeCrossFilterModelHandler}>Close</button>
+                        <button class="slds-button slds-button_brand" onclick={applyCrossFilter}>Apply</button>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+        </template>
+        <!-- =========================================================Cross Filter Model==================================================================================== -->
+        
+        <!-- =========================================================Cross Filter Sub-Model==================================================================================== -->
+        
+        <template if:true={isSubCrossFilterModel}>
+            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <!-- <div  class="slds-modal__title slds-hyphenate">Set child Object</div> -->
+                    </div>
+                    <div class="slds-modal__content slds-p-around_large">
+                        <!-- <template lwc:if={showError_EmptyModel}>
+                            
+                            <div class="demo-only slds-box" style="padding:0.5rem;background:#850000;font-size: 15px;">
+                                <div class="slds-text-color_inverse">Set at least one filter criteria</div>
+                                </div>
+                        </template> -->
+                        <!-- <template lwc:if={showError_NoValueForField}>   
+                            <div class="demo-only slds-box" style="padding:0.5rem;background:#850000;font-size: 15px;">
+                                <div class="slds-text-color_inverse">Please set a value for field {currentSelectedField}</div>
+                                </div>
+                        </template> -->
+                        <lightning-combobox
+                                name="optionSelect"
+                                label="Field"
+                                value={currentSelectedFieldForCrossFilter}
+                                placeholder="Select Fields"
+                                options={optionOfAllFieldsForCrossFilter}
+                                onchange={handleAllFieldsForCrossFilter}
+                                required >
+                            </lightning-combobox>
+                        <lightning-combobox
+                                name="optionSelect"
+                                label="Operator"
+                                value={currentSelectedOperatorForCrossFilter}
+                                options={operatorValueForCrossFilter}
+                                required
+                                onchange={handleOperatorForCrossFilter} >
+                            </lightning-combobox>
+    
+                            
+                        <!-- <template if:true={setFilterModelValueInputBoxShowAndHideForDateTime}>
+                            <abbr title="required" class="slds-required">*</abbr>
+                            <label class="slds-form-element__label slds-no-flex" aria-required="true">value</label>
+                            <lightning-input type="datetime" name="DateTime" onchange={handleModalDateTimeValue} value={datetime}></lightning-input>
+                        </template> -->
+                        <!-- <template if:true={setFilterModelValueInputBoxShowAndHideForDate}>
+                            <lightning-layout>
+                            <lightning-layout-item size="6">
+                                <abbr title="required" class="slds-required">*</abbr>
+                            <label class="slds-form-element__label slds-no-flex" aria-required="true">value</label>
+                                <lightning-input type="date" name="input1" label="Enter a date" onchange={handleModalDateValue} value={currentSelectedOperatorValueForCrossFilter}></lightning-input>
+                            </lightning-layout-item>
+                            </lightning-layout>    
+                        </template> -->
+                        <template if:true={setCrossFilterModelValueForBoolean}>
+                            <abbr title="required" class="slds-required">*</abbr>
+                            <label class="slds-form-element__label slds-no-flex" aria-required="true">value</label>
+                            <lightning-radio-group   value={currentSelectedOperatorValueForCrossFilter} name="radioGroup" options={optionsOfTrueFalse}
+                                                    onchange={handleCrossFilterModalBooleanValue} type="button">
+                            </lightning-radio-group>   
+    
+                        </template>
+                        <template if:true={setCrossFilterModelValueForBooleanForPickList}>
+                            <lightning-combobox 
+                                name="optionSelect"
+                                label="Value"
+                                value={currentSelectedOperatorValueForCrossFilter}
+                                options={optionOfAllPicklist}
+                                required
+                                onchange={handleModalPicklistOption} ></lightning-combobox>
+    
+                        </template>
+                        
+                    </div>
+                    <div class="slds-modal__footer bold">
+                        <button class="slds-button slds-button_neutral" onclick={closeSubCrossFilterModel}>Close</button>
+                        <button class="slds-button slds-button_brand" onclick={applySubCrossFilter}>Apply</button>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+        </template>
+        <!-- =========================================================End Cross Filter Sub-Model==================================================================================== -->
+        
+    </lightning-card>
+    </template>

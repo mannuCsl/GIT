@@ -1,0 +1,8 @@
+lightning-button.button {
+	--sds-c-button-brand-color-background: #2572b5;
+    --sds-c-button-text-color: #f5f6fa;
+    --slds-c-button-radius-border:	3rem;    
+}
+lightning-button.reStart {
+     --slds-c-button-radius-border: 3rem;    
+};

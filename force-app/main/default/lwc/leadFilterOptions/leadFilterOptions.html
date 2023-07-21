@@ -1,0 +1,59 @@
+<template>
+    <lightning-layout-item size="4">
+        <div class="filterOption slds-border_right slds-m-top_large">
+            <div class="slds-text-align_center slds-text-heading_medium slds-border_bottom">{search_lead} Filter
+                <lightning-button-icon icon-name="utility:close" alternative-text={search_lead}  variant="bare"
+                                title="Close" class="slds-float_right" onclick={CloseObjectFilter}>
+                </lightning-button-icon>
+            </div>      
+                        <ul class="slds-has-dividers_around-space slds-m-around_xx-small">
+                            <template for:each={filterListForAccount} for:item="listItem" for:index="index">
+                                <li class="slds-item" key={listItem.id}>
+                                    <lightning-layout vertical-align="center" horizontal-align="spread">
+                                        <lightning-layout-item size="1">{listItem.sno}.</lightning-layout-item>
+                                        <lightning-layout-item padding="horizontal-small"  title={listItem.id} tabindex={listItem.name} size="10">
+                                            <div  onclick={editFilterCriteria}   style="width:200px; cursor: pointer;" title={search_lead}><div title={listItem.name}> {listItem.name}</div>
+                                            <div title={listItem.operator}>{listItem.operator} {listItem.operatorValue} </div> </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="horizontal-small" size="1">
+                                            <lightning-button-icon icon-name="utility:close" name={search_lead} title = "Close"
+                                                onclick={deleteFilterFromList} variant="bare">
+                                            </lightning-button-icon>
+                                         </lightning-layout-item>
+                                    </lightning-layout>
+                                </li>
+                            </template>
+                         </ul>
+                         <ul class="slds-has-dividers_around-space slds-m-around_xx-small">
+                            <template for:each={crossfilterListForAccount} for:item="crossfilterItem" for:index="index">
+                                <li class="slds-item slds-m-top_large" key={crossfilterItem.id}>
+                                    <lightning-layout>
+                                        <lightning-layout-item padding="horizontal-Small" size="11">
+                                            <b>{crossfilterItem.primaryObject}</b><br>
+                                            {crossfilterItem.with}&nbsp;{crossfilterItem.secondaryObject}
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="1">
+                                            <lightning-button-icon icon-name="utility:close" name={search_lead} title = "Close" value={crossfilterItem.id}
+                                                onclick={deleteCrossFilterFromList} variant="bare">
+                                            </lightning-button-icon>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </li>
+                                <lightning-input type="search" key={crossfilterItem.id} class="searchpadding" placeholder="Add Fields..." onclick={openSubCrossFilterModel}> </lightning-input>
+                            </template>
+                        </ul>
+
+            <div class="slds-p-top_small">
+                <a onclick={handelModel} title={search_lead} class="slds-float_left slds-m-left_small" name="AddNewFilter">Add Filter</a>
+                <a onclick={handleCrossFilter} class="slds-float_right slds-m-right_small">Add Cross Filter</a><br />
+                <div class="slds-m-left_small slds-p-top_x-small bold"><abbr title="required" class="slds-required">*</abbr>Conditions</div>
+                <lightning-radio-group options={option_for_custom_logic} value={itemSelected} class="slds-p-bottom_x-small slds-m-left_small radio"
+                                       onchange={handleRadioButton}   name={search_lead} type="radio">
+                </lightning-radio-group>
+            </div>
+            <template if:true={showInputBoxOfAccount}>
+                <div class="slds-p-around_medium lgc-bg"><lightning-input type="text" label="Logic" required></lightning-input></div>
+            </template>
+        </div>
+    </lightning-layout-item>
+</template>

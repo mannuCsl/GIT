@@ -1,0 +1,45 @@
+<template>
+    <div if:true={isLoading} style="height: 20px; position:relative">
+        <lightning-spinner variant="base" size="medium"></lightning-spinner>
+      </div>
+     <div style="background-color:rgb(199, 211, 179); padding:7px; border-radius: 10px;">
+          <p><b>Accoudion</b></p>
+          <P>This is the content of the div</P>
+          <div class="container" style={containerStyle}>
+              <div class="content">
+                  This is the content of the div
+                  <p>Donec vitae tellus egestas, faucibus ipsum ac, imperdiet erat. Nam venenatis non ante at sagittis. Integer vel purus eget nunc semper placerat. Nam tristique quam leo, et posuere enim condimentum quis. Ut sagittis libero id lectus tempor maximus. Nunc ut tincidunt eros, a hendrerit leo. Suspendisse quis fermentum dolor. Nulla euismod consectetur leo, id condimentum nunc consequat quis.</p>
+                  <p>Donec vitae tellus egestas, faucibus ipsum ac, imperdiet erat. Nam venenatis non ante at sagittis. Integer vel purus eget nunc semper placerat. Nam tristique quam leo, et posuere enim condimentum quis. Ut sagittis libero id lectus tempor maximus. Nunc ut tincidunt eros, a hendrerit leo. Suspendisse quis fermentum dolor. Nulla euismod consectetur leo, id condimentum nunc consequat quis.</p>
+                  <p>Donec vitae tellus egestas, faucibus ipsum ac, imperdiet erat. Nam venenatis non ante at sagittis. Integer vel purus eget nunc semper placerat. Nam tristique quam leo, et posuere enim condimentum quis. Ut sagittis libero id lectus tempor maximus. Nunc ut tincidunt eros, a hendrerit leo. Suspendisse quis fermentum dolor. Nulla euismod consectetur leo, id condimentum nunc consequat quis.</p>
+              </div>
+          </div>
+          <lightning-button-icon class="iconStyle" icon-name={iconName} onclick={handleToggleClick} variant="container"></lightning-button-icon>
+     </div>
+
+    <div class="list">
+        <template for:each={items} for:item="item">
+        <div key={item.id} class="list-item">
+            {item.name}
+        </div>
+        </template>
+    </div>
+    
+    <lightning-card title="SpinnerExample">
+    
+        <!-- Using the if:true directive we will conditionaly show/hide the spinner -->
+        <div if:true={isLoading} style="height: 20px; position:relative">
+          <lightning-spinner variant="base" size="medium"></lightning-spinner>
+        </div>
+        
+        <!-- Using the if:false directive we will conditionaly show/hide the picklists -->
+        <div if:false={isLoading} class="slds-m-around_large">
+          <p class="slds-m-bottom_small">Picklist options have been loaded.</p>
+          <!-- <lightning-combobox options={picklistOptions.picklistOne} label="PicklistOne" placeholder="Select value"></lightning-combobox>
+          <lightning-combobox options={picklistOptions.picklistTwo} label="PicklistTwo" placeholder="Select value"></lightning-combobox>
+          <lightning-combobox options={picklistOptions.picklistThree} label="PicklistThree" placeholder="Select value"></lightning-combobox> -->
+        </div>
+      </lightning-card>
+    
+    
+
+ </template>

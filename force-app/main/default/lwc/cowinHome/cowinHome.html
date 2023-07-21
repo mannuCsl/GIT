@@ -1,0 +1,158 @@
+<template> 
+    <div class="divClass1">
+        <div class="slds-page-header">       
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:task" title="task"></lightning-icon>
+                </div>
+                <div class="slds-media__body">                              
+                    <h3>
+                       <span class="slds-page-header__title slds-truncate" title="Cowin Search :-">Cowin Search :-</span>
+                    </h3>                          
+                <p class="slds-page-header__name-meta">By Pin Code and Date</p>
+                </div>
+            </div>          
+        </div>    
+        <div style="background-color:beige;">
+            <lightning-layout>        
+                <lightning-layout-item size="5" padding="around-small">
+                    <lightning-input type="Number" label="Pin Code"  class="validate" required onchange={onchangePincode} placeholder="enter here pin code..."
+                    min="100000" max="999999" message-when-range-overflow="Please enter a correct pincode" message-when-range-underflow="Please enter a correct pincode"></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="5" padding="around-small">
+                    <lightning-input type="Date" label="Date" required onchange={onchangeDate} placeholder="enter here date..."></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds" size="2" padding="around-small">
+                    <lightning-button  class="slds-p-right_medium" label="Search" variant="brand" onclick={SearchClickbutton}></lightning-button>
+                    <lightning-button  class="slds-p-right_medium" label="Clear" variant="brand-outline" onclick={clearClickbutton}></lightning-button> 
+                </lightning-layout-item>               
+            </lightning-layout>
+        </div>
+        <template  if:true={tableShow}>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-labelledby="element-with-table-label other-element-with-table-label">
+                <thead>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Center Id">Center Id</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Name">Name</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Block Name">Block Name</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Vaccine">Vaccine</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Available Capacity">Available Capacity</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Fee Type">Fee Type</div>
+                    </th>
+                    <th  class="" scope="col">
+                        <div class="slds-truncate" title=""></div>
+                    </th>              
+                </thead>
+                <tbody>
+                    <template  for:each={visibleContacts} for:item="session">
+                        <tr class="slds-hint-parent" key={session.center_id}>
+                            <td data-label="Center Id" scope="row">
+                                <div class="slds-truncate" title={session.center_id}>{session.center_id}</div>
+                            </td>
+                            <td data-label="Name">
+                            <div class="slds-truncate" title={session.name}>{session.name}</div>
+                            </td>
+                            <td data-label="Block Name">
+                            <div class="slds-truncate" title={session.block_name}>{session.block_name}</div>
+                            </td>
+                            <td data-label="Vaccine">
+                            <div class="slds-truncate" title={session.vaccine}>{session.vaccine}</div>
+                            </td>
+                            <td data-label="Available Capacity">
+                            <div class="slds-truncate" title={session.available_capacity}>{session.available_capacity}</div>
+                            </td>
+                            <td data-label="Fee Type">
+                            <div class="slds-truncate" title={session.fee_type}>{session.fee_type}</div>
+                            </td> 
+                            <td data-label="">
+                                <!-- <template if:true={session.buttonDisable}>
+                                   <button class="slds-button slds-button_brand" disabled={session.buttonDisable}>Saved</button> 
+                                </template>
+                                <template if:true={session.buttonDisable}> -->
+                                    <button class="slds-button slds-button_brand" disabled={session.buttonDisable} value={session.session_id} onclick={saveOnclick}>Save</button>
+                                <!-- </template> -->
+                            </td>               
+                        </tr>
+                    </template>
+                </tbody>            
+            </table>
+            <div slot="footer" class="slds-var-m-vertical_medium">
+                <c-pagination records={data} onupdate={updateContactHandlerpage}></c-pagination>
+            </div>      
+        </template>        
+    </div>
+</template>
+
+    <!--template>
+        <div style="background-color:beige ;">
+            <lightning-layout>        
+                <lightning-layout-item size="5" padding="around-small" >
+                    <lightning-input type="Number" label="Pin Code" class="validate" required onchange={onchangePincode} placeholder="enter here pin code..."
+                    min="100000" max="999999" message-when-range-overflow="Please enter a correct pincode" message-when-range-underflow="Please enter a correct pincode"></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="5" padding="around-small">
+                    <lightning-input type="Date" label="Date" required onchange={onchangeDate} placeholder="enter here date..."></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds" size="2" padding="around-small">
+                    <lightning-button label="Search" variant="brand-outline" onclick={SearchClickbutton}></lightning-button> 
+                </lightning-layout-item>
+            </lightning-layout>
+    </div>
+        <table>
+            <thead>
+                <th></th>
+                <th>Product Name</th>
+                <th>Start Date</th>
+                <th>Term Length</th>
+                <th>Seats</th>
+                <th>Expiring</th>
+            </thead>
+            <tbody>
+            <template for:each={data} for:item="product">
+                <tr key={data.center_id}> 
+                    <td class="checkbox-cell">
+                    <input type="checkbox" data-key={product.srpId} name="selectedproduct" value={product.srpId} checked={checked} onchange={handleProdChange}/></td>
+                    <td>{product.name}</td>
+                    <td><lightning-formatted-date-time value={product.startDate} year="numeric" month="numeric" day="numeric" ></lightning-formatted-date-time></td>
+                    <td>{product.block_name}</td>
+                    <td>{product.available_capacity}</td>
+                    <td><lightning-formatted-date-time value={product.expirationDate} year="numeric" month="numeric" day="numeric"></lightning-formatted-date-time></td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+    </template
+
+<template>
+    <div style="background-color:beige ;">
+        <lightning-layout>        
+            <lightning-layout-item size="5" padding="around-small" >
+                <lightning-input type="Number" label="Pin Code" class="validate" required onchange={onchangePincode} placeholder="enter here pin code..."
+                 min="100000" max="999999" message-when-range-overflow="Please enter a correct pincode" message-when-range-underflow="Please enter a correct pincode"></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="5" padding="around-small">
+                <lightning-input type="Date" label="Date" required onchange={onchangeDate} placeholder="enter here date..."></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item class="slds" size="2" padding="around-small">
+                <lightning-button label="Search" variant="brand-outline" onclick={SearchClickbutton}></lightning-button> 
+            </lightning-layout-item>
+        </lightning-layout>
+        <div if:true={tableShow} >
+            <lightning-datatable
+                    key-field="center_id"
+                    data={data}
+                    columns={columns}>
+            </lightning-datatable>
+        </div>
+    </div>    
+</template> -->

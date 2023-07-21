@@ -1,0 +1,48 @@
+<aura:component  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionwithoutheader" access="global" >
+    <aura:attribute name="isModalOpen" type="boolean" default="true"/>
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+    </aura:html>
+    <aura:if isTrue="{!v.isModalOpen}">
+        <div style="background:white;">
+            <header class="slds-modal__header" >
+                <h1 id="modal-heading-01" class="slds-text-heading_medium ">Create new Contact</h1>
+            </header>
+            <form class="slds-m-around--medium" style="max-height: 301px; overflow-y: auto; padding-right:37px; ">
+                 <lightning:combobox name="Converted Status" label="Converted Status"/>
+                <lightning:input name="input2" label="Opportunity Name" />
+                A Lighting Quick Action button can be used to open a lighting component on a standard Salesforce page in Lightning Experience.  The button will open up your lightning component in a modal and you can configure this modal in your lightning component.  By adding force:lightningQuickActionWithoutHeader to the implements attribute of your lightning component, you can configure the modal to open without having a cancel button present and it will not have a header. Changing that to force:lightningQuickAction will create a header for the modal and place a cancel button at the bottom of the modal. There is not much you can configure for this modal besides those options stated above. You might want to customize the look of the modal beyond the implementation of
+                force:lightningQuickAction and force:lightningQuickActionWithoutHeader. This can be done by accessing the elements generated on the page by Salesforce when that quick action button is clicked.
+                
+                This is a lightning component that will navigate to another component when the quick action button is clicked. It is being used to show a spinner to the user while the navigation event occurs.A Lighting Quick Action button can be used to open a lighting component on a standard Salesforce page in Lightning Experience.  The button will open up your lightning component in a modal and you can configure this modal in your lightning component.  By adding force:lightningQuickActionWithoutHeader to the implements attribute of your lightning component, you can configure the modal to open without having a cancel button present and it will not have a header. Changing that to force:lightningQuickAction will create a header for the modal and place a cancel button at the bottom of the modal. There is not much you can configure for this modal besides those options stated above. You might want to customize the look of the modal beyond the implementation of
+                force:lightningQuickAction and force:lightningQuickActionWithoutHeader. This can be done by accessing the elements generated on the page by Salesforce when that quick action button is clicked.
+                
+                This is a lightning component that will navigate to another component when the quick action button is clicked. It is being used to show a spinner to the user while the navigation event occurs.A Lighting Quick Action button can be used to open a lighting component on a standard Salesforce page in Lightning Experience.  The button will open up your lightning component in a modal and you can configure this modal in your lightning component.  By adding force:lightningQuickActionWithoutHeader to the implements attribute of your lightning component, you can configure the modal to open without having a cancel button present and it will not have a header. Changing that to force:lightningQuickAction will create a header for the modal and place a cancel button at the bottom of the modal. There is not much you can configure for this modal besides those options stated above. You might want to customize the look of the modal beyond the implementation of
+                force:lightningQuickAction and force:lightningQuickActionWithoutHeader. This can be done by accessing the elements generated on the page by Salesforce when that quick action button is clicked.
+                
+                This is a lightning component that will navigate to another component when the quick action button is clicked. It is being used to show a spinner to the user while the navigation event occurs.A Lighting Quick Action button can be used to open a lighting component on a standard Salesforce page in Lightning Experience.  The button will open up your lightning component in a modal and you can configure this modal in your lightning component.  By adding force:lightningQuickActionWithoutHeader to the implements attribute of your lightning component, you can configure the modal to open without having a cancel button present and it will not have a header. Changing that to force:lightningQuickAction will create a header for the modal and place a cancel button at the bottom of the modal. There is not much you can configure for this modal besides those options stated above. You might want to customize the look of the modal beyond the implementation of
+                force:lightningQuickAction and force:lightningQuickActionWithoutHeader. This can be done by accessing the elements generated on the page by Salesforce when that quick action button is clicked.
+                
+                This is a lightning component that will navigate to another component when the quick action button is clicked. It is being used to show a spinner to the user while the navigation event occurs.A Lighting Quick Action button can be used to open a lighting component on a standard Salesforce page in Lightning Experience.  The button will open up your lightning component in a modal and you can configure this modal in your lightning component.  By adding force:lightningQuickActionWithoutHeader to the implements attribute of your lightning component, you can configure the modal to open without having a cancel button present and it will not have a header. Changing that to force:lightningQuickAction will create a header for the modal and place a cancel button at the bottom of the modal. There is not much you can configure for this modal besides those options stated above. You might want to customize the look of the modal beyond the implementation of
+                force:lightningQuickAction and force:lightningQuickActionWithoutHeader. This can be done by accessing the elements generated on the page by Salesforce when that quick action button is clicked.
+                
+                This is a lightning component that will navigate to another component when the quick action button is clicked. It is being used to show a spinner to the user while the navigation event occurs.A Lighting Quick Action button can be used to open a lighting component on a standard Salesforce page in Lightning Experience.  The button will open up your lightning component in a modal and you can configure this modal in your lightning component.  By adding force:lightningQuickActionWithoutHeader to the implements attribute of your lightning component, you can configure the modal to open without having a cancel button present and it will not have a header. Changing that to force:lightningQuickAction will create a header for the modal and place a cancel button at the bottom of the modal. There is not much you can configure for this modal besides those options stated above. You might want to customize the look of the modal beyond the implementation of
+                force:lightningQuickAction and force:lightningQuickActionWithoutHeader. This can be done by accessing the elements generated on the page by Salesforce when that quick action button is clicked.                           
+            </form>
+            <div class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick="{! c.handleClose }">Cancel</button>
+            <button aura:id="contactField" class="slds-button slds-button_brand" onclick="{!c.savecontact}">Save</button>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

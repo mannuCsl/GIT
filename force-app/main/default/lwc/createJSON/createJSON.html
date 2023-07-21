@@ -1,0 +1,41 @@
+<template>
+    <div style="background-color: white; padding:7px;">
+        <lightning-layout>
+            <lightning-layout-item>
+                <template for:each={screens} for:item="screen">
+                    <table key={screen.section.id}>
+                        <thead if:false={screen.section.hidden}>
+                            <th>
+                                <lightning-formatted-rich-text value={screen.section.label}></lightning-formatted-rich-text>
+                            </th>
+                        </thead>
+                        <tbody if:false={screen.section.hidden}>
+                            <template for:each={screen.section.rows} for:item="row">
+                                <tr key={row.id}>
+                                    <template for:each={row.columns} for:item="column">
+                                        <td if:true={column.isLabel} key={column.id}>
+                                            <lightning-formatted-rich-text value={column.label}></lightning-formatted-rich-text>
+                                        </td>
+                                        <td if:true={column.isInput} key={column.id}>
+                                            <lightning-input type={column.type} required={column.isRequired} variant="label-hidden" name={column.fieldAPIName} readonly={column.isReadOnly} disabled={column.isDisabled}></lightning-input>
+                                        </td>
+                                        <td if:true={column.isTextarea} key={column.id}>
+                                            <lightning-textarea variant="label-hidden" name={column.fieldAPIName} placeholder="Please write here..."  disabled={column.isDisabled}></lightning-textarea>
+                                        </td>
+                                        <td if:true={column.isCurrency} key={column.id}>
+                                            <lightning-input type={column.type} variant="label-hidden" formatter={formatter} name={column.fieldAPIName}  disabled={column.isDisabled}></lightning-input>
+                                        </td>
+                                        <td if:true={column.isButton} key={column.id}>
+                                            <lightning-button label={column.label} type={column.type} value={column.methodName} variant="brand" onclick={columnmethodName}></lightning-button>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                            
+                        </tbody>
+                    </table>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>        
+</template>

@@ -1,0 +1,293 @@
+<template>
+     <div if:true={isLoadingMap}>
+          <lightning-spinner
+              alternative-text="Loading..." variant="brand" size="large" class="slds-is-fixed">
+          </lightning-spinner>
+      </div>
+      <template if:true={showFilter}>
+          <c-add-Filter></c-add-Filter>
+      </template>
+     <div class="demo-only demo-only--sizing slds-grid slds-wrap" style="background-color:white;">                              
+          <div class="slds-size_12-of-12" style="padding: 10px;">  
+               <template if:true={showButtons}>                
+                    <lightning-button class="button" style="padding: 3px;" variant="brand" label="Map Current Location" onclick={MapCurrentLocationButton} ></lightning-button>
+                    <lightning-button class="button" style="padding: 3px;" variant="brand" label="Enter Address" onclick={OpenPopUpButton} ></lightning-button> 
+               </template>
+               <template if:false={showButtons}>
+                    <lightning-button class="reStart" style="padding: 3px;"  label="Restart" onclick={manualRefreshHandler} ></lightning-button>
+                    <lightning-button class="button" style="padding: 3px;"  variant="brand" label="Random Position" onclick={OpenRandomPopUpButton} ></lightning-button>  
+               </template>
+               <template if:true={visiblePopUp}>  
+                    <div class="slds-modal slds-fade-in-open slds-backdrop" >  
+                         <div class="slds-modal__container" style="min-width: 1000px;">  
+                              <!---HEADER Section-->  
+                              <div class="slds-modal__header">  
+                                   <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"  
+                                   variant="bare-inverse" onclick={closeModal} class="slds-modal__close">  
+                                   </lightning-button-icon>                                   
+                                   <div if:true={manuallyAddressHeadingShow} style="font-size: large;">
+                                        <h2>Enter Address Manually</h2>
+                                   </div>
+                                   <div if:false={manuallyAddressHeadingShow} style="font-size: large;">
+                                        <h2>Add Random Position</h2>
+                                   </div>                               </div>  
+                              <!--Body Section-->  
+                              <div class="slds-modal__content slds-p-around_medium">
+                                   <lightning-layout data>
+                                        <lightning-layout-item size="6" padding="around-small">  
+                                             <lightning-input name="Name" class="validate" value={Nam} onchange={OnChangeName} type="text" required label="Name"></lightning-input><br>
+                                             <lightning-input name="postal" class="validate" value={PstlKod} onchange={OnChangePostalCode} type="text" label="Postal Code"></lightning-input>
+                                        </lightning-layout-item>               
+                                        <lightning-layout-item size="6" padding="around-small">               
+                                             <lightning-input name="street" class="validate" value={Str} onchange={OnChangeStreet} type="text" required label="Street"></lightning-input><Br>
+                                             <lightning-input name="city" class="validate" value={Ct} onchange={OnChangeCity} type="text" required label="City"></lightning-input>
+                                        </lightning-layout-item>                     
+                                   </lightning-layout>
+                              </div>  
+                              <!--Footer Section-->  
+                              <div class="slds-modal__footer">
+                                   <template if:true={randomPositionButtons}>
+                                        <lightning-button class="button" style="padding: 3px;" variant="brand" label="Show On Map" onclick={ShowOnMapButton} ></lightning-button>  
+                                        <lightning-button class="button" style="padding: 3px;" label="Cancel" variant="brand" onclick={closeModal}></lightning-button>  
+                                   </template>
+                                   <template if:true={enterAddressButtons}>
+                                        <lightning-button class="button" style="padding: 3px;" variant="brand" label="Select Saved Address" onclick={SelectSavedAddressButton} ></lightning-button>
+                                        <lightning-button class="button" style="padding: 3px;" variant="brand" label="Save & Show On Map" onclick={SaveShowOnMapButton} ></lightning-button>
+                                        <lightning-button class="button" style="padding: 3px;" variant="brand" label="Show On Map" onclick={ShowOnMapButton} ></lightning-button>  
+                                        <!-- <lightning-button class="slds-m-left_x-small" icon-name="utility:close" label="Close" variant="brand" onclick={closeModal}></lightning-button>   -->
+                                   </template>
+                              </div>  
+                         </div>  
+                    </div>  
+               </template>
+               <template if:true={savedAdrsVisiblePopUp}>  
+                    <div class="slds-modal slds-fade-in-open slds-backdrop">  
+                         <div class="slds-modal__container" style="min-width: 1000px;">  
+                              <!--  HEADER Section  -->
+                              <div class="slds-modal__header">
+                                   <h1><b>Saved Address </b></h1>  
+                              </div>  
+                              <!--Body Section--> 
+                              <!-- <div class="slds-modal__content slds-p-around_medium">
+                                   <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-labelledby="element-with-table-label other-element-with-table-label">
+                                        <thead style="background-color: white;">                           
+                                             <th class="" scope="col">
+                                                  <div class="slds-truncate" title="Name">Name</div>
+                                             </th>                            
+                                             <th class="" scope="col">
+                                                  <div class="slds-truncate" title="Street">Street</div>
+                                             </th>                            
+                                             <th class="" scope="col">
+                                                  <div class="slds-truncate" title="Postal Code">Postal Code</div>
+                                             </th>
+                                             <th  class="" scope="col">
+                                                  <div class="slds-truncate" title="City">City</div>
+                                             </th>              
+                                        </thead>
+                                        <tbody>
+                                             <template  for:each={getSavedAdrs} for:item="Addrs">
+                                                  <tr class="slds-hint-parent" key={Addrs.Id}>                                                      
+                                                       <td data-label="Name">
+                                                            <div class="slds-truncate" title={Addrs.Name}>                                                               
+                                                                 <a title={Addrs.Id} onclick={getRecordDetail}>{Addrs.Name}</a>
+                                                            </div>
+                                                       </td>                                  
+                                                       <td data-label="Street">
+                                                            <div class="slds-truncate" title={Addrs.Street__c}>{Addrs.Street__c}</div>
+                                                       </td>                                  
+                                                       <td data-label="Postal Code">
+                                                            <div class="slds-truncate" title={Addrs.Postal_Code__c}>{Addrs.Postal_Code__c}</div>
+                                                       </td> 
+                                                       <td data-label="City">
+                                                            <div class="slds-truncate" title={Addrs.City__c}>{Addrs.City__c}</div>
+                                                       </td>
+                                                       <td data-label="">                                      
+                                                            <lightning-button class="slds-m-left_x-small" label="Delete" value={Addrs.Id} variant="destructive" onclick={deleteThisAddrs}></lightning-button> 
+                                                       </td>             
+                                                  </tr>
+                                             </template>
+                                        </tbody>            
+                                   </table>                                   
+                              </div>   -->
+                              <lightning-datatable key-field="Id" 
+                                   data={getSavedAdrs}  
+                                   columns={columns} 
+                                   hide-checkbox-column 
+                                   show-row-number-column  
+                                   onrowaction={deleteThisAddrs}
+                                   sorted-by={sortBy}
+                                   sorted-direction={sortDirection}
+                                   onsort={doSorting}                                 
+                                   >  
+                              </lightning-datatable>
+                              <!-- Footer Section  -->
+                              <div class="slds-modal__footer">
+                                   <lightning-button class="button" style="padding: 3px;" label="Close" variant="brand" onclick={closeModalSavedAdrsVisiblePopUp}></lightning-button>  
+                              </div>  
+                         </div>  
+                    </div>      
+               </template>
+          </div>
+     </div> 
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- <form> 
+          <div class="demo-only demo-only-sizing slds-grid slds-wrap" style="background-color:white;">                              
+               <div class="slds-size_1-of-12">
+                    <div class="slds-box_large slds-text-align_center slds-m-around_x-small">
+                         <lightning-icon class="MapIcon" icon-name="standard:location" title="Location"></lightning-icon> 
+                    </div>
+               </div>
+               <div class="slds-size_2-of-12">
+                    <div class="slds-box_medium slds-text-align_center slds-m-around_x-small">
+                         <lightning-input type="text" onchange={OnChangeStreet} label="Street"></lightning-input>
+                    </div>
+               </div>
+               <div class="slds-size_2-of-12">
+                    <div class="slds-box_medium slds-text-align_center slds-m-around_x-small">
+                         <lightning-input type="text" onchange={OnChangeCity} label="City"></lightning-input> 
+                    </div>
+               </div>
+               <div class="slds-size_2-of-12">
+                    <div class="slds-box_medium slds-text-align_center slds-m-around_x-small">
+                         <lightning-input type="text" onchange={OnChangeCountry} label="Country"></lightning-input> 
+                    </div>
+               </div>
+               <div class="slds-size_2-of-12">
+                    <div class="slds-box_medium slds-text-align_center slds-m-around_x-small">
+                         <lightning-input type="text" pattern="[0-9]{6}" onchange={OnChangePostalCode} label="PostalCode"></lightning-input> 
+                    </div>
+               </div>
+               <div class="slds-size_3-of-12">
+                    <div class="slds-box_medium slds-text-align_center" style="margin-top: 24px;">
+                         <button style="margin-right: 6px;" class="slds-button slds-button_brand" onclick={OnClickSearch}>Search</button>                        
+                         <button style="margin-left: 7px;" class="slds-button slds-button_neutral" onclick={OnClickClear}>Clear</button> 
+                    </div>
+               </div>
+          </div>
+     </form> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <template> 
+     <div class={flexipageRegionWidth}>
+     <lightning-layout>
+          <lightning-layout-item size="12" padding="around-medium" style="background-color:white;">
+               <form>
+                    <lightning-layout>
+                         <lightning-layout-item size="1" padding="around-small">
+                         </lightning-layout-item>
+                         <lightning-layout-item size="1" padding="around-small">
+                              <lightning-icon class="MapIcon" icon-name="standard:location" title="Location"></lightning-icon>
+                         </lightning-layout-item>
+                         <lightning-layout-item size="2" padding="around-small">
+                              <lightning-input type="text" onchange={OnChangeStreet} label="Street"></lightning-input>
+                         </lightning-layout-item> 
+                         <lightning-layout-item size="2" padding="around-small">
+                              <lightning-input type="text" onchange={OnChangeCity} label="City"></lightning-input>
+                         </lightning-layout-item> 
+                         <lightning-layout-item size="2" padding="around-small">
+                              <lightning-input type="text" onchange={OnChangeCountry} label="Country"></lightning-input>
+                         </lightning-layout-item> 
+                         <lightning-layout-item size="2" padding="around-small">
+                              <lightning-input type="number" onchange={OnChangePostalCode} label="PostalCode"></lightning-input>
+                         </lightning-layout-item>                         
+                         <lightning-layout-item size="1" padding="around-small" style="margin-top: 19px;">
+                              <button style="margin-right: 6px;" class="slds-button slds-button_brand" onclick={OnClickSearch}>Search</button>                        
+                              <button style="margin-left: 7px;" class="slds-button slds-button_neutral" onclick={OnClickClear}>Clear</button>
+                         </lightning-layout-item> 
+                         <lightning-layout-item size="1" padding="around-small">
+                         </lightning-layout-item>                    
+                    </lightning-layout>                                                    
+               </form>
+          </lightning-layout-item>
+     </lightning-layout>
+     <lightning-layout>
+          <lightning-layout-item size="9" padding="around-small" style="background-color:white;">
+               <iframe style="margin-top: 0px; border-width: 0px;" id="vfIframe" width='100%' height='700px' src={vfHost}> </iframe>
+          </lightning-layout-item>
+          <lightning-layout-item size="3" padding="around-small" style="background-color:white;">
+
+
+
+          --><!-- <lightning-icon icon-name="standard:account" title="Address"></lightning-icon> -->
+               <!-- <template if:true={messageFromVF}> 
+                         <lightning-datatable
+                              key-field="lat"
+                              hide-checkbox-column
+                              data={messageFromVF}
+                              columns={columns}>
+                         </lightning-datatable>                 --><!--
+
+
+
+                         
+                         <p if:true={totalMarker} style="font-weight: bold; font-size: x-large">Markers({totalMarker})</p>
+                         <br>
+                    <template for:each={messageFromVF} for:item="add">                         
+                    <p key={add.lat} style="font-weight: bold; font-size: medium; padding:5px;">
+                         <lightning-icon style="margin:5px;" icon-name="standard:account" title="Address"></lightning-icon>
+                              {add.street}, 
+                              {add.city}, 
+                              {add.country}, 
+                              {add.postal} 
+                              //<! {add.lat}, 
+                              {add.lng}  --><!--
+                         </p>
+                    </template>--> 
+               <!-- </template> --><!--
+          </lightning-layout-item>          
+     </lightning-layout>
+</div>    
+</template> -->

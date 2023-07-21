@@ -1,0 +1,49 @@
+.THIS .mainDiv{
+    background-color: #555;
+    margin:-20%;
+}
+.THIS .headerDiv{
+    padding: 10px 16px;
+    background: #555;
+    color: #555;
+    background-color: #f1f1f1;
+    text-align: center;
+   
+}
+.THIS .bodyDiv{
+    height: 144px;
+    overflow-y: auto;
+}
+.THIS .slds-modal__footerf{
+    box-shadow: none;
+    border:none;     
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+.THIS.slds-modal {
+    width: 190%;
+    left: -45%;
+}
+.THIS.slds-modal:focus {
+    outline: none !important;
+}
+.THIS .slds-modal__content {
+    min-height: 16rem;
+}
+.THIS .slds-modal__container{
+    width:100%;
+}*/

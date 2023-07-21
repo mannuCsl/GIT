@@ -1,0 +1,8 @@
+<template>
+ <lightning-card  variant="Narrow"  title="1st Component" icon-name="standard:account">
+    <lightning-button variant="brand" label="1stComponent" onclick={firstComponent}></lightning-button>
+    <div class="slds-m-around_medium" if:true={messageContext}>
+      Get Data form 2nd Component.
+   </div>
+ </lightning-card>
+</template>

@@ -1,0 +1,96 @@
+<template>
+    <lightning-card>
+        <form>
+            <lightning-layout>
+                <lightning-layout-item size="1.5" padding="around-small">
+                    <lightning-icon class="sldsicon" icon-name="custom:custom60" style="zoom:129%" title="custom88"></lightning-icon>        
+                </lightning-layout-item>
+                <lightning-layout-item size="3" padding="around-small" class="sldsinput">
+                    <lightning-input type="Text" onkeypress={handleEnter} onchange={onchangeCityName} onfocus={onfocusCityName} placeholder="enter city name..."></lightning-input>
+                </lightning-layout-item> 
+                <lightning-layout-item size="1" padding="around-small"></lightning-layout-item>
+                <lightning-layout-item size="2" padding="around-small">
+                    <lightning-button  name="search" label="Search" variant="brand" onclick={CityNameSearchbutton}></lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item size="2" padding="around-small">
+                    <lightning-button label="Clear" variant="brand-outline" onclick={CityNameclearbutton} ></lightning-button>
+                </lightning-layout-item>               
+            </lightning-layout> 
+        </form>       
+        <template if:true={weatherReportVisible}>
+            <lightning-layout title={weatherData.name}>
+                <lightning-layout-item size="3" medium-device-size="3" padding="around-small">
+                    <lightning-card icon-name="custom:custom97" title="Current Temperature">
+                        <div class="slds-align_absolute-center color-red">
+                            {weatherData.main.temp}
+                        </div>
+                    </lightning-card>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" medium-device-size="3" padding="around-small">
+                    <lightning-card icon-name="utility:flow" title="Current Wind Speed">
+                        <div class="slds-align_absolute-center color-grey">
+                           {weatherData.wind.speed}                        
+                        </div>
+                    </lightning-card>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" medium-device-size="3" padding="around-small">
+                    <lightning-card icon-name="standard:calibration" title="Pressure">
+                        <div class="slds-align_absolute-center color-green"> 
+                           {weatherData.main.pressure}
+                        </div>
+                    </lightning-card>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" medium-device-size="3" padding="around-small">
+                    <lightning-card icon-name="standard:topic" title="Clouds">
+                        <div class="slds-align_absolute-center color-blue"> 
+                           {weatherData.clouds.all}
+                        </div>
+                    </lightning-card>
+                </lightning-layout-item>
+            </lightning-layout>           
+            <lightning-map
+                map-markers={mapMarkers}
+                zoom-level="10">
+            </lightning-map>
+        </template> 
+    </lightning-card>
+</template>
+
+
+ <!-- <lightning-card title="Weather Report">
+                Name - {weatherData.name} <br>
+                Base - {weatherData.base} <br>
+                Cod - {weatherData.cod} <br>
+                Dt - {weatherData.dt} <br>
+                Timezone - {weatherData.timezone} <br>
+                Visibility - {weatherData.visibility} <br>
+                Id - {weatherData.id} <br>
+                Clouds - {weatherData.clouds.all} <br> <br>
+
+                Feels Like - {weatherData.main.feels_like} <br>
+                Humidity - {weatherData.main.humidity} <br>
+                Pressure - {weatherData.main.pressure} <br>
+                Temperature - {weatherData.main.temp} <br> 
+                Maximum Temperature - {weatherData.main.temp_max} <br>
+                Minimum Temperature - {weatherData.main.temp_min} <br>
+                Grnd Level - {weatherData.main.grnd_level} <br> 
+                Sea Level - {weatherData.main.sea_level} <br> <br>
+
+                Country - {weatherData.sys.country} <br>
+                Sunrise - {weatherData.sys.sunrise} <br>
+                Sunset - {weatherData.sys.sunset} <br> <br>
+
+                Wind Deg - {weatherData.wind.deg} <br> 
+                Wind Gust - {weatherData.wind.gust} <br>
+                Wind Gust - {weatherData.wind.gust} <br>
+                Wind Gust - {weatherData.wind.gust} <br>
+                Wind Gust - {weatherData.wind.gust} <br>
+                Wind Speed - {weatherData.wind.speed} <br> <br>
+            
+                <div for:each={weatherData.weather} for:item="base" key={base.id}> 
+                Description - {base.description} <br>
+                Icon - {base.icon} <br>
+                Id - {base.id} <br>
+                Main - {base.main} <br>
+                </div>
+            </lightning-card> -->

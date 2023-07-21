@@ -1,0 +1,348 @@
+<template>
+    <lightning-quick-action-panel header="Convert Lead">           
+        <lightning-layout>
+            <lightning-layout-item size="12" class="hello2">
+                <p>{activeSectionsMessage}</p>
+                <lightning-accordion allow-multiple-sections-open
+                    onsectiontoggle={handleSectionToggle}
+                    active-section-name={activeSections}>                 
+                    <lightning-layout class="around-small">
+                        <lightning-layout-item size="5" padding="around-small">
+                            <input type="radio" name="Create" id="CreateNew" value="CreateNew"/>
+                            <label for="Create New">Create New</label>
+                            <lightning-accordion-section style="border:none;" name="Account" label="Account">  
+                                <lightning-record-edit-form record-id={recordId} object-api-name="Lead">
+                                    <div class="oppClass">
+                                    <lightning-messages></lightning-messages>
+                                    <lightning-input-field data-field="Company" field-name="Company"></lightning-input-field></div>
+                                </lightning-record-edit-form>                            
+                            </lightning-accordion-section>                    
+                        </lightning-layout-item>
+                    
+                        <lightning-layout-item size="1">
+                            <div class="float-md-end">- OR -</div>
+                            <div class="verticalLine"></div>
+                        </lightning-layout-item>                                        
+                    
+                        <lightning-layout-item size="5" padding="around-small" style="overflow-y:visible">
+                            <input type="radio" name="Create" id="ChooseExisting" value="ChooseExisting"/>
+                            <label for="Choose Existing">Choose Existing</label>
+                            <c-custom-lookup-lwc icon-name="standard:account"
+                            s-object-api-name="account"
+                            label="Account Search"
+                            onlookupupdate={lookupRecord}
+                            placeholder="Search Account here..."></c-custom-lookup-lwc>
+                            <lightning-input type="checkbox" label="Update Lead Source"></lightning-input>                          
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <lightning-layout>
+                        <lightning-layout-item size="12" padding="around-small">
+                            <div class="horizentalLine"></div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <lightning-layout class="overflow">
+                        <lightning-layout-item size="5" padding="around-small">
+                            <lightning-accordion-section name="Contact" label="Contact" class="hello3">
+                                <lightning-record-edit-form record-id={recordId} object-api-name="Lead">
+                                    <div class="oppClass">
+                                    <lightning-messages></lightning-messages>
+                                    <lightning-input-field data-field="Salutation" field-name="Salutation" > </lightning-input-field>
+                                    <lightning-input-field data-field="FirstName" field-name="FirstName" > </lightning-input-field>
+                                    <lightning-input-field data-field="LastName" field-name="LastName" > </lightning-input-field></div>                        
+                                </lightning-record-edit-form>                                    
+                            </lightning-accordion-section>
+                        </lightning-layout-item>            
+                        <lightning-layout-item size="1">
+                            <div class="float-md-end">- OR -</div>
+                            <div class="verticalLine"></div>
+                        </lightning-layout-item> 
+                        <lightning-layout-item size="5" padding="around-small">
+                            <lightning-input type="text" placeholder="No active duplicate rule"></lightning-input>
+                        </lightning-layout-item>               
+                    </lightning-layout>
+
+                    <lightning-layout>
+                        <lightning-layout-item size="12" padding="around-small">
+                                <div class="horizentalLine"></div>
+                        </lightning-layout-item>
+                    </lightning-layout> 
+
+                    <lightning-layout class="overflow">
+                        <lightning-layout-item size="5" padding="around-small">
+                            <lightning-accordion-section name="Opportunity" label="Opportunity">
+                                <lightning-record-edit-form record-id={recordId} object-api-name="Lead">
+                                    <div class="oppClass">
+                                    <lightning-messages></lightning-messages>
+                                    <lightning-input-field data-field="Company" field-name="Company" ></lightning-input-field></div>
+                                    <lightning-input type="checkbox" label="Don't create an opportunity upon conversion"></lightning-input>
+                                </lightning-record-edit-form>                                    
+                            </lightning-accordion-section>
+                        </lightning-layout-item>          
+                        <lightning-layout-item size="1">
+                            <div class="float-md-end">- OR -</div>
+                            <div class="verticalLine"></div>
+                        </lightning-layout-item> 
+                        <lightning-layout-item size="5" padding="around-small">
+                            <lightning-input type="text" placeholder="To find opportunity, choose an existing account"></lightning-input>                        
+                        </lightning-layout-item>               
+                    </lightning-layout>
+                </lightning-accordion>
+            </lightning-layout-item>                
+        </lightning-layout>
+        <lightning-layout style="background-color: white;">
+            <lightning-layout-item size="12" padding="around-small">
+                <lightning-layout>
+                    <lightning-layout-item size="5" padding="around-small">
+                        <lightning-record-edit-form record-id={recordId} object-api-name="Lead">
+                            <lightning-messages></lightning-messages>                        
+                            <lightning-input-field data-field="OwnerId" field-name="OwnerId" ></lightning-input-field>
+                        </lightning-record-edit-form>                    
+                    </lightning-layout-item>
+            
+                    <lightning-layout-item size="1" padding="around-small">
+                        <div class="float-md-end"></div>                    
+                    </lightning-layout-item>                                        
+                
+                    <lightning-layout-item size="5" padding="around-small">
+                        <lightning-combobox
+                        name="Converted Status"
+                        label="Converted Status"
+                        value={ConvertedName}
+                        required
+                        placeholder="Converted"
+                        options={ConvertedOptions}
+                        onchange={ConvertedFunction}>  
+                    </lightning-combobox>
+                    </lightning-layout-item>               
+                </lightning-layout>
+            </lightning-layout-item>                
+        </lightning-layout>
+
+        <lightning-layout>
+            <lightning-layout-item size="12"> 
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={halndelClickCancle} aria-label="Cancel and close">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={halndelClickConvert}>Convert</button>
+                </div>         
+            </lightning-layout-item>               
+        </lightning-layout>
+    </lightning-quick-action-panel>
+</template> 
+
+
+
+
+
+
+    <!-- <template for:each={data} for:item="Obj"> 
+       <lightning-layout key={Obj.Id}>
+           <lightning-layout-item padding="around-small" size="12">  
+               <h2>Your Lead had been Converted</h2>
+               <lightning-icon icon-name="standard:task" title="task"></lightning-icon>
+               <lightning-layout>
+                   <lightning-layout-item padding="around-large" size="12" > 
+                   <lightning-layout-item padding="around-small" size="4">
+                       Account=={accountId.Id}  
+                   </lightning-layout-item>
+                   <lightning-layout-item padding="around-small" size="4"> 
+                       Contact=={contactId.Id} 
+                   </lightning-layout-item>
+                   <lightning-layout-item padding="around-small" size="4"> 
+                       Opportunity=={opportunityId.Id} 
+                   </lightning-layout-item> 
+               </lightning-layout-item> 
+               </lightning-layout>
+           </lightning-layout-item>               
+       </lightning-layout>
+   </template> 
+</template>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <template>
+    <lightning-layout horizontal-align="Center" class="hello1">
+        <lightning-layout-item size="12" >
+            <div class="page-section page-header">
+                <h2>Convert Lead</h2>
+            </div>
+        </lightning-layout-item>            
+    </lightning-layout>
+    <lightning-card>
+        <div class="hello02">
+            <p>{activeSectionsMessage}</p>
+            <lightning-accordion allow-multiple-sections-open
+                onsectiontoggle={handleSectionToggle}
+                active-section-name={activeSections}> 
+                                            
+                        <lightning-accordion-section name="Account" label="Account" class="hello2">
+                            <lightning-radio-group 
+                                options={genderOptions}
+                                value={genderValue}                       
+                                type="radio">
+                            </lightning-radio-group> 
+                            <div class="box" style="width: 40%;">
+                                <lightning-record-edit-form object-api-name="Account">                    
+                                    <lightning-messages></lightning-messages>
+                                    <lightning-combobox
+                                        name="Salutation"
+                                        label="Salutation"
+                                        value={valueName}
+                                        placeholder="Salutation"
+                                        options={salutationOptions}
+                                        onchange={salutationFunction}>  
+                                    </lightning-combobox>
+                                    <lightning-input type="text" label="First Name"></lightning-input>
+                                    <lightning-input type="text" label="Middle Name" ></lightning-input>
+                                    <lightning-input type="text" required label="Last Name"></lightning-input>
+                                    <lightning-input type="text" label="Suffix"></lightning-input>
+                                    <lightning-input type="text" label="Record Type"></lightning-input>
+                                </lightning-record-edit-form>
+                            </div> 
+                            <div class="line" style="width: 9%;"></div>
+                            <div class="box" style="width: 40%;">
+                                <lightning-record-edit-form object-api-name="Account">                    
+                                    <lightning-messages></lightning-messages>
+                                    <lightning-combobox
+                                        name="Salutation"
+                                        label="Salutation"
+                                        value={valueName}
+                                        placeholder="Salutation"
+                                        options={salutationOptions}
+                                        onchange={salutationFunction}>  
+                                    </lightning-combobox>
+                                    <lightning-input type="text" label="First Name"></lightning-input>
+                                    <lightning-input type="text" label="Middle Name" ></lightning-input>
+                                    <lightning-input type="text" required label="Last Name"></lightning-input>
+                                    <lightning-input type="text" label="Suffix"></lightning-input>
+                                    <lightning-input type="text" label="Record Type"></lightning-input>
+                                </lightning-record-edit-form>
+                            </div> 
+
+                        </lightning-accordion-section>
+                          
+                    <div style="padding:3px;"></div>
+                <lightning-accordion-section name="Opportunity" label="Opportunity" class="hello3">
+                    <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+                        <lightning-record-edit-form object-api-name="Account">
+                            <lightning-messages></lightning-messages>
+                            <lightning-input type="text" label="Opportunity Name"></lightning-input>
+                            <lightning-input type="text" label="Record Type"></lightning-input>                    
+                            <lightning-input type="checkbox" label="Don't create an opportunity upon conversion"></lightning-input>                    
+                        </lightning-record-edit-form>
+                    </div>   
+                </lightning-accordion-section>
+
+                              
+                        <lightning-accordion-section name="Account" label="Account" class="hello2">
+                            <lightning-radio-group 
+                                options={genderOptions}
+                                value={genderValue}                       
+                                type="radio">
+                            </lightning-radio-group> 
+                            <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+                                <lightning-record-edit-form object-api-name="Account">                    
+                                    <lightning-messages></lightning-messages>
+                                    <lightning-combobox
+                                        name="Salutation"
+                                        label="Salutation"
+                                        value={valueName}
+                                        placeholder="Salutation"
+                                        options={salutationOptions}
+                                        onchange={salutationFunction}>  
+                                    </lightning-combobox>
+                                    <lightning-input type="text" label="First Name"></lightning-input>
+                                    <lightning-input type="text" label="Middle Name" ></lightning-input>
+                                    <lightning-input type="text" required label="Last Name"></lightning-input>
+                                    <lightning-input type="text" label="Suffix"></lightning-input>
+                                    <lightning-input type="text" label="Record Type"></lightning-input>
+                                </lightning-record-edit-form>
+                            </div>  
+
+                                <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+                                <lightning-record-edit-form object-api-name="Account">                    
+                                    <lightning-messages></lightning-messages>
+                                    <lightning-combobox
+                                        name="Salutation"
+                                        label="Salutation"
+                                        value={valueName}
+                                        placeholder="Salutation"
+                                        options={salutationOptions}
+                                        onchange={salutationFunction}>  
+                                    </lightning-combobox>
+                                    <lightning-input type="text" label="First Name"></lightning-input>
+                                    <lightning-input type="text" label="Middle Name" ></lightning-input>
+                                    <lightning-input type="text" required label="Last Name"></lightning-input>
+                                    <lightning-input type="text" label="Suffix"></lightning-input>
+                                    <lightning-input type="text" label="Record Type"></lightning-input>
+                                </lightning-record-edit-form>
+                            </div>  
+
+                        </lightning-accordion-section>  
+            
+            </lightning-accordion>
+            <lightning-card><div style="padding:7px;">
+                <lightning-input
+                name="Record Owner"
+                label="Record Owner"
+                placeholder="Search User..."
+                type="search"
+            ></lightning-input></div> 
+            </lightning-card>
+        </div>   
+    </lightning-card>      
+    <div class="slds-modal__footer">
+        <button class="slds-button slds-button_neutral" aria-label="Cancel and close">Cancel</button>
+        <button class="slds-button slds-button_brand">Convert</button>
+    </div> 
+           
+</template> -->

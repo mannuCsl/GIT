@@ -1,0 +1,144 @@
+<apex:page >
+    <apex:includeScript value="{!$Resource.markerClustererPlus}"/>
+    <apex:includeLightning />
+    <head>         
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAhkfXXZxQNHRErlk0ReUkJ6XwOn3UeUI"></script>        
+        <script type="text/javascript">
+        var lexOrigin ="https://cloudsciencelabs-a-dev-ed.lightning.force.com";
+        window.addEventListener("message",function(event){
+            console.log('Origin in VF '+ event.origin);
+            console.log('lexOrigin in VF '+ lexOrigin);
+            console.log('data in VF'+ event.data);
+            console.log('Not run map == ',event.origin !== lexOrigin);
+            if (event.origin !== lexOrigin) {
+                console.log('Not the expected origin: reject message');
+                // Not the expected origin: reject message!
+             return;
+            }
+            var myOptions={ zoom: 8, mapTypeId: google.maps.MapTypeId.ROADMAP, mapTypeControl: false};
+            var map;  
+            var marker;
+            var circle;
+            var geocoder = new google.maps.Geocoder();
+            var address =event.data[0].street+","+event.data[0].city+","+event.data[0].postal+","+event.data[0].lat+","+event.data[0].lng;            
+            var mcOptions = {gridSize: 40, maxZoom: 14, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'};
+            var markerCluster; //marker cluster
+            
+            infowindow = new google.maps.InfoWindow({
+                content:""            
+            });            
+            geocoder.geocode( { address: address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK&&results.length) {
+                    if (status != google.maps.GeocoderStatus.ZERO_RESULTS) { 
+                        //create map
+                        map = new google.maps.Map(document.getElementById("map"), myOptions);
+                        //marker cluster initialization
+                        markerCluster = new MarkerClusterer(map, [], mcOptions);                        
+                        //center map
+                        map.setCenter(results[0].geometry.location);
+                        
+                        //create marker using address 
+                        marker = new google.maps.Marker({
+                            position: results[0].geometry.location,
+                            map: map,
+                            //label: `${event.data.length}`,
+                            title: results[0].address_components[0].long_name
+                        });
+                        //add markers to cluster.
+                        markerCluster.addMarker(marker, true);
+                        google.maps.event.trigger(marker, 'click');                        
+                        //add listeners
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infowindow.open(map,marker);
+                            infowindow.setContent("<p>"+"<b>"+ event.data[0].street+'<button id="buttonId" style="border: none; margin-left:40px; margin-bottom:-30px; " onclick="myFunction('+event.data[0].lat+','+ event.data[0].lng+')"><img style="height:30px; width:30px;" src="https://cloudsciencelabs-a-dev-ed--c.vf.force.com/resource/1672658051000/add_icon?"></button>'+"</b>"+"</p>"+"<p>"+ event.data[0].street +"<br>"+ event.data[0].city +"<br>"+ event.data[0].postal +"<br>");                                                           
+                            infowindow.open(map, this);
+                        });
+                        google.maps.event.addListener(infowindow, 'closeclick', function() {
+                            map.setCenter(marker.getPosition());
+                        }); 
+                        function showRadius() {                     
+                            circle = new google.maps.Circle({
+                                center: new google.maps.LatLng(results[0].geometry.location),
+                                radius: 500000, // radius in meters
+                                strokeColor: "#0000FF",
+                                strokeOpacity: 0.5,
+                                strokeWeight: 1.3,
+                                fillColor: "#0000FF",
+                                fillOpacity: 0.35,
+                            });
+                            circle.setMap(map);
+                        }
+                        function hideRadius() {
+                            circle.setMap(null);
+                        }
+                        
+                        //create marker usinig lat lng
+                        for (let i = 1; i < event.data.length; i++) {
+                            marker = new google.maps.Marker({
+                                position: { lat: parseFloat(event.data[i].lat), lng: parseFloat(event.data[i].lng)},
+                                map: map,
+                                //label: `${event.data.length - i}`,
+                                title: event.data[i].street                                
+                            });
+                            
+                            //add markers to cluster.
+                            markerCluster.addMarker(marker, true);                            
+                            let fullAddress ="<p>"+"<b>"+ event.data[i].street+'<button id="buttonId" style="border: none; margin-left:40px; margin-bottom:-30px; " onclick="myFunction('+event.data[i].lat+','+ event.data[i].lng+')"><img style="height:30px; width:30px;" src="https://cloudsciencelabs-a-dev-ed--c.vf.force.com/resource/1672658051000/add_icon?"></button>'+"</b>"+"</p>"+"<p>"+ event.data[i].street +"<br>"+ event.data[i].city +"<br>"+ event.data[i].postal +"<br>"+ event.data[i].country +"<br>";
+                            google.maps.event.trigger(marker, 'click');                            
+                            //add listeners
+                            google.maps.event.addListener(marker, 'click', function() {
+                                infowindow.open(map,marker);
+                                infowindow.setContent("<p>"+fullAddress+"</p>");                                                             
+                                infowindow.open(map, this);
+                            });                            
+                            google.maps.event.addListener(infowindow, 'closeclick', function() {
+                                map.setCenter(marker.getPosition());
+                            }); 
+                        }
+                    }                 
+                } 
+                else {                   
+                    var mapOptions = {
+                        center: new google.maps.LatLng(52.640143,1.28685),
+                        zoom: 2.9,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+                    var map = new google.maps.Map(document.getElementById("map"), mapOptions); 
+                    //$('#map').css({'height' : '15px'});
+                    // $('#map').html("Oops! address could not be found, please make sure the address is correct.");
+                    // resizeIframe();                   
+                }                 
+            });
+            
+            function resizeIframe () {
+                var me = window.name;
+                if (me) {
+                    var iframes = parent.document.getElementsByName(me);
+                    if (iframes&&iframes.length == 1) {
+                        height = document.body.offsetHeight;
+                        iframes[0].style.height = height + "px";
+                    }
+                }
+            }              
+            
+        }); 
+        
+        function myFunction(lat ,lng) {  
+            var message = {lat:lat, lng:lng};
+            window.parent.postMessage(message,lexOrigin);            
+        }      
+        </script>
+        <style>
+            #map {            
+            font-family: Arial;
+            font-size:12px;
+            line-height:normal !important;
+            height:680px;
+            background:transparent;
+            }
+        </style>
+    </head>
+    <body>      
+        <div id="map"></div>
+    </body>
+</apex:page>

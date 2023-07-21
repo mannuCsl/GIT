@@ -1,0 +1,26 @@
+<template>
+     <div if:true={isRunSpinner}>
+          <lightning-spinner
+              alternative-text="Loading..." variant="brand" size="large" class="slds-is-fixed">
+          </lightning-spinner>
+     </div>
+
+     <!--Initial Address Buttons-->
+     <c-map-Container-Child onprogressvaluechange={hanldeProgressValueChange}></c-map-Container-Child>
+     <!--/Initial Address Buttons-->
+
+     <!--Map Section-->
+     <div class="demo-only demo-only--sizing slds-grid slds-wrap" style="background-color:white;">    
+          <div class={mapDivSize}>  
+               <div class="slds-box_x-small">
+                    <iframe style="border-width:0px; border-radius:5px" id="vfIframe" width='100%' height='700px' src={vfHost}></iframe> 
+               </div>
+          </div>
+          <div class={markerAddressDivSize}>  
+               <div class="slds-box_x-small">
+                    <c-drag-a-n-ddrop onprogressvaluechangeremoveelement={hanldeProgressValueChangeRemoveElement}></c-drag-a-n-ddrop>
+               </div>
+          </div>
+     </div>
+     <!--/Map Section-->     
+</template>

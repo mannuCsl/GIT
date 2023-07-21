@@ -1,0 +1,16 @@
+<template>
+    <div class="slds-card" style="padding:7px;">
+            <lightning-input label="Enter Your Name" type="text" onchange={onchangeYourNameHandler}></lightning-input>
+            <lightning-input label="Slow Down" type="number" onchange={onchangeSpeedHandler}></lightning-input>
+            <lightning-button label="Start" variant="brand" onclick={startbutton}></lightning-button>
+            <lightning-button label="Stop" variant="brand" onclick={stopIt}></lightning-button>
+
+            <div class="click-container" onclick={handleClick}>
+                <!-- <div class="circle">Hello I am A Circle</div> -->
+                <p class="dynamic-position" style={textPosition}>{yourName}</p>
+                <p class="dynamic-position" style={textPosition1}></p>
+                <p class="dynamic-position" style={textPosition2}></p>
+                <p class="dynamic-position" style={textPosition3}></p>
+            </div>
+    </div>     
+</template>

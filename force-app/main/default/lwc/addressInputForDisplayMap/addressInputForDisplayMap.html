@@ -1,0 +1,94 @@
+<template> 
+     <div style="background-color: none;">
+     <lightning-layout>          
+          <lightning-layout-item size={itemSize} padding="around-medium" style="background-color:white;">
+               <p><b>Start Parent Component</b></p>
+               <form>
+                    <lightning-layout>
+                         <!-- <lightning-layout-item size="1" padding="around-small">
+                              <lightning-icon class="MapIcon" icon-name="standard:location" title="location"></lightning-icon>
+                         </lightning-layout-item> -->
+                         <lightning-layout-item size="2.2" padding="around-small">
+                              <lightning-input type="text" onchange={OnChangeStreet} label="Street"></lightning-input>
+                         </lightning-layout-item> 
+                         <lightning-layout-item size="2.2" padding="around-small">
+                              <lightning-input type="text" onchange={OnChangeCity} label="City"></lightning-input>
+                         </lightning-layout-item> 
+                         <lightning-layout-item size="2.2" padding="around-small">
+                              <lightning-input type="text" onchange={OnChangeCountry} label="Country"></lightning-input>
+                         </lightning-layout-item> 
+                         <lightning-layout-item size="2" padding="around-small">
+                              <lightning-input type="number"  value={fromChild} onchange={OnChangePostalCode} label="PostalCode"></lightning-input>
+                         </lightning-layout-item>
+                         <lightning-layout-item size="1" padding="around-small">
+                         </lightning-layout-item>
+                         <lightning-layout-item size="0.7" padding="around-small" class="MapHeading">
+                              <lightning-button-icon variant="brand" size="large" onclick={OnClickSearch} icon-name="standard:search" alternative-text="Search" title="Search"></lightning-button-icon>
+                         </lightning-layout-item>  
+                         <lightning-layout-item size="0.7" padding="around-small" class="MapHeading">
+                              <lightning-button-icon variant="brand" size="large" icon-name="action:close" onclick={OnClickClear} alternative-text="Close" title="Close"></lightning-button-icon>
+                         </lightning-layout-item>                     
+                    </lightning-layout>
+               </form>
+               <div class="slds-p-horizontal_small">
+                    <lightning-progress-bar
+                    value={progressValue}
+                    size="large"
+                    ></lightning-progress-bar>
+               </div>
+               <p><b>End Parent Component</b></p>              
+          </lightning-layout-item>
+     </lightning-layout>
+          <c-child-Lwc
+             city33={cityvalue}
+             street22={streetvalue} 
+             country44={countryvalue}
+             postal66={postalvalue}
+            onprogressvaluechange={hanldeProgressValueChange}
+          ></c-child-Lwc>
+     </div>
+</template>
+
+ <!-- <div class="slds-page-header">       
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name="standard:location" title="location"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">                              
+                            <h3>
+                               <span class="slds-page-header__title slds-truncate">Address Search In Map :-</span>
+                            </h3> 
+                         </div>
+                    </div>          
+               </div> -->
+               <!-- <br><br>              
+               <lightning-layout>
+                    <lightning-layout-item size="12">
+                         <form>   
+                              <lightning-input-address onchange={OnChangeAddress}                                   
+                                   street-label="Street" 
+                                   city-label="City"
+                                   country-label="Country"                                  
+                                   postal-code-label="PostalCode"
+                                   >  province-label="Province" 
+                              </lightning-input-address>
+                              <template if:true={MapVisible}>
+                                   <br>
+                                   <c-Display-Map 
+                                        city33={cityvalue}
+                                        street22={streetvalue} 
+                                        country44={countryvalue}
+                                        province55={provincevalue}
+                                        postal66={postalvalue} 
+                                   ></c-Display-Map>                                   
+                              </template> 
+                              <br>                                           
+                         </form>               
+                    </lightning-layout-item>
+               </lightning-layout>
+               <lightning-layout>
+                    <lightning-layout-item size="12">
+                         <div class="slds-modal__footer"> 
+                          </div>
+                    </lightning-layout-item>
+               </lightning-layout> -->

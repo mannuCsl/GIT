@@ -1,0 +1,84 @@
+<!-- <template if:true={allowModelToOpen}> -->
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+        class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <div id="modal-heading-01" class="slds-modal__title slds-hyphenate">Set {getObjectName} Filter</div>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <template lwc:if={showError_EmptyModel}>
+                    
+                    <div class="demo-only slds-box" style="padding:0.5rem;background:#850000;font-size: 15px;">
+                        <div class="slds-text-color_inverse">Set at least one filter criteria</div>
+                        </div>
+                </template>
+                <template lwc:if={showError_NoValueForField}>   
+                    <div class="demo-only slds-box" style="padding:0.5rem;background:#850000;font-size: 15px;">
+                        <div class="slds-text-color_inverse">Please set a value for field {currentSelectedField}</div>
+                        </div>
+                </template>
+                <lightning-combobox
+                        name="optionSelect"
+                        label="Field"
+                        value={currentSelectedField}
+                        placeholder="Select Fields"
+                        options={optionOfAllFields}
+                        onchange={handleModalFields}
+                        required >
+                    </lightning-combobox>
+                <lightning-combobox
+                        name="optionSelect"
+                        label="Operator"
+                        value={currentSelectedOperator}
+                        options={operatorValue}
+                        required
+                        onchange={handleModalOperator} >
+                    </lightning-combobox>
+
+                    
+                <template if:true={setFilterModelValueInputBoxShowAndHideForDateTime}>
+                    <abbr title="required" class="slds-required">*</abbr>
+                    <label class="slds-form-element__label slds-no-flex" aria-required="true">value</label>
+                    <lightning-input type="datetime" name="DateTime" onchange={handleModalDateTimeValue} value={datetime}></lightning-input>
+                </template>
+                <template if:true={setFilterModelValueInputBoxShowAndHideForDate}>
+                    <lightning-layout>
+                    <lightning-layout-item size="6">
+                        <abbr title="required" class="slds-required">*</abbr>
+                    <label class="slds-form-element__label slds-no-flex" aria-required="true">value</label>
+                        <lightning-input type="date" name="input1" label="Enter a date" onchange={handleModalDateValue} value={currentSelectedOperatorValue}></lightning-input>
+                    </lightning-layout-item>
+                    </lightning-layout>    
+                </template>
+                <template if:true={setFilterModelValueInputBoxShowAndHideForBoolean}>
+                    <abbr title="required" class="slds-required">*</abbr>
+                    <label class="slds-form-element__label slds-no-flex" aria-required="true">value</label>
+                    <lightning-radio-group   value={currentSelectedOperatorValue} name="radioGroup" options={optionsOfTrueFalse}
+                                            onchange={handleModalBooleanValue} type="button">
+                    </lightning-radio-group>   
+
+                </template>
+                <template if:true={setFilterModelValueInputBoxShowAndHideForPickList}>
+                    <lightning-combobox 
+                        name="optionSelect"
+                        label="Value"
+                        value={currentSelectedOperatorValue}
+                        options={optionOfAllPicklist}
+                        required
+                        onchange={handleModalPicklistOption} ></lightning-combobox>
+                </template>
+                <template if:true={setFilterModelValueInputBoxShowAndHideForCustumLogic}>
+                    <abbr title="required" class="slds-required">*</abbr>
+                    <label class="slds-form-element__label slds-no-flex" aria-required="true">value</label>
+                    <input class="slds-input" maxlength="255" size="20" type="text" onchange={handleModalCustumLogicValue} value={currentSelectedOperatorValue} >
+                </template>
+            </div>
+            <div class="slds-modal__footer bold">
+                <button class="slds-button slds-button_neutral" onclick={handleModalClose}>Close</button>
+                <button class="slds-button slds-button_brand" onclick={addAppliedFilterAsList}>Apply</button>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>
