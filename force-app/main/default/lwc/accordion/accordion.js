@@ -13,6 +13,7 @@ export default class Accordion extends LightningElement {
 
     handleToggleClick() {
      this.isLoading =  !this.isLoading;
+     console.log('isLoading: ',this.isLoading)
           this.isOpen = !this.isOpen;
           if(this.isOpen){
                this.iconName='utility:chevronup'; //up
