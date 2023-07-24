@@ -68,12 +68,12 @@ export default class ClickAndGetPosition extends LightningElement {
     get textPosition1(){
         return `top: ${this.clientTop1}px; left: ${this.clientLeft1}px; background: red; width: 55px; height: 55px;`;
     }
-    get textPosition2(){
-        return `top: ${this.clientTop2}px; left: ${this.clientLeft2}px; background: green; width: 40px; height: 40px;`;
-    }
-    get textPosition3(){
-        return `top: ${this.clientTop3}px; left: ${this.clientLeft3}px; background: blue; width: 25px; height: 25px;`;
-    }
+    // get textPosition2(){
+    //     return `top: ${this.clientTop2}px; left: ${this.clientLeft2}px; background: green; width: 40px; height: 40px;`;
+    // }
+    // get textPosition3(){
+    //     return `top: ${this.clientTop3}px; left: ${this.clientLeft3}px; background: blue; width: 25px; height: 25px;`;
+    // }
 
 
 
@@ -115,19 +115,19 @@ export default class ClickAndGetPosition extends LightningElement {
 
 
 
-                this.clientTop1--;
+                //this.clientTop1--;
                 if(this.clientTop1 <= 117 && isUpDown1){
-                    this.clientTop1 =-2; //Up
+                    this.clientTop1 --; //Up
                     if(this.clientTop1 == 0){
                         isUpDown1 = false;
                     }
                 }                
                 if(this.clientTop1 >= 0 && !isUpDown1){
-                    this.clientTop1 =+2;//Down                    
+                    this.clientTop1 ++;//Down                    
                     if(this.clientTop1 == 117){
                         isUpDown1 = true;
                     }
-                    //console.log(' top: ', this.clientTop, ' isUpDown1: ',isUpDown1);
+                    console.log(' top111: ', this.clientTop1, ' isUpDown1: ',isUpDown1);
                 }
                 
                 
@@ -155,13 +155,13 @@ export default class ClickAndGetPosition extends LightningElement {
                 }
                 
                 if(this.clientTop1 <= 117 && isUpDown1){
-                    this.clientTop1 =-2; //Up
+                    this.clientTop1 --; //Up
                     if(this.clientTop1 == 0){
                         isUpDown1 = false;
                     }
                 }                
                 if(this.clientTop1 >= 0 && !isUpDown1){
-                    this.clientTop1 =+2;//Down                    
+                    this.clientTop1 ++;//Down                    
                     if(this.clientTop1 == 117){
                         isUpDown1 = true;
                     }

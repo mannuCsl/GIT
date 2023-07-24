@@ -2,13 +2,14 @@ public class CowinHomeController {
     @AuraEnabled
     public static List<Wrapper> cowinDataSorting(String pincode, date covidDate){
         Http http = new Http();
-        HttpRequest request = new HttpRequest();
-       
-        system.debug(pincode);
-        system.debug(covidDate);
+        HttpRequest request = new HttpRequest();       
+        system.debug('Pincode: '+pincode);
+        system.debug('Date: '+covidDate);
         String dateStr = covidDate.day() + ' - ' + covidDate.month() + ' - ' +covidDate.year();
-         System.debug(dateStr);	
-        request.setEndpoint('https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode='+pincode+'&date='+dateStr);
+         System.debug('dateStr: '+dateStr);	
+        String link = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode='+pincode+'&date='+dateStr;
+        System.debug('link: '+link);
+        request.setEndpoint(link);
         request.setMethod('GET');
         HttpResponse response = http.send(request);
         // If the request is successful, parse the JSON response.

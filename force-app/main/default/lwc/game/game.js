@@ -12,7 +12,59 @@ export default class Game extends LightningElement {
     progrsBarVisible;
     @track bullImgPosition = 0;
     @track cactusMarginLeft = 375;
-    @track firstCactusTreePosition = this.cactusMarginLeft;  
+    @track firstCactusTreePosition = this.cactusMarginLeft;
+
+   
+    
+    @track clickedText = 'Name...';
+   // @track textPosition = '';
+    @track clientTop = 80;
+    @track clientLeft = 660;
+    @track speed = 0;
+
+    onchangeYourNameHandler(event){
+        this.clickedText = event.target.value;
+    }
+    onchangeSpeedHandler(event){
+        this.speed = event.target.value;
+    }
+    // get textPosition(){
+    //     return `top: ${this.clientTop}px; left: ${this.clientLeft}px;`;
+    // }
+    handleClick(event) {
+        const containerRect = this.template.querySelector('.click-container').getBoundingClientRect();
+        const clientX = event.clientX - containerRect.left;
+        const clientY = event.clientY - containerRect.top;
+        this.clickedText = `Clicked at (${clientX}, ${clientY})`;
+        this.textPosition = `top: ${clientY}px; left: ${clientX}px;`;
+    }
+    abc;
+    startbutton(event){
+        console.log('enter: ',this.clientLeft)
+        var sakingCactus = true;
+        this.abc=setInterval(() => {
+            if(this.clientLeft <= 1320 && sakingCactus){
+                this.clientLeft --;
+                if(this.clientLeft == 0){
+                    sakingCactus = false;
+                }                 
+            }         
+            if(this.clientLeft >= 0 && !sakingCactus){
+                this.clientLeft ++; 
+                if(this.clientLeft == 1320){
+                    sakingCactus = true;
+                }
+            }
+        }, this.speed);
+    }
+    stopIt(){
+        clearInterval(this.abc);
+    }
+
+
+    
+
+
 
 
     playHandler(event){
